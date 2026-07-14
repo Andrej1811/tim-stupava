@@ -1,0 +1,14 @@
+/*
+Theme Name: NexDigital
+Theme URI: https://nexdigital.sk
+Author: NexDigital
+Author URI: https://nexdigital.sk
+Description: Custom starter theme skeleton. Classic PHP templates + Vite + Tailwind CSS v4 + CMB2. Base for future NexDigital projects.
+Version: 1.0.0
+Requires at least: 6.5
+Requires PHP: 8.2
+License: GPL-2.0-or-later
+Text Domain: nexdigital
+*/
+
+/* Styles are compiled by Vite from resources/css/app.css. This file only registers the theme. */
