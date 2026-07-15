@@ -47,13 +47,17 @@ function wordpressHmr() {
 
 export default defineConfig(({ command }) => ({
     base: command === "build" ? PUBLIC_BASE : "/",
+    publicDir: false,
     plugins: [tailwindcss(), wordpressHmr()],
     build: {
         outDir: "public/build",
         emptyOutDir: true,
         manifest: true,
         rollupOptions: {
-            input: resolve(__dirname, "resources/js/app.js"),
+            input: {
+                app: resolve(__dirname, "resources/js/app.js"),
+                admin: resolve(__dirname, "resources/css/admin.css"),
+            },
         },
     },
     server: {

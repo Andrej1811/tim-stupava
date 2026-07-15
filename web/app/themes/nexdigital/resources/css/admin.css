@@ -1,0 +1,23 @@
+/*
+ * wp-admin styles for the NexDigital theme.
+ *
+ * Plain CSS (no Tailwind) — wp-admin is already styled, we only tweak.
+ * Loaded via inc/assets.php on admin_enqueue_scripts and built as its own
+ * Vite entry (see vite.config.js).
+ */
+
+/* Thin admin menu separators. */
+#adminmenu li.wp-menu-separator {
+    height: 1px;
+    background-color: #fff;
+}
+
+/* Align this theme's screenshot in Appearance → Themes. */
+.theme-browser .theme[data-slug='nexdigital'] .theme-screenshot img {
+    top: -45px;
+}
+
+/* Style CMB2 meta boxes to sit closer to the WP admin look. */
+.cmb2-wrap .cmb-row {
+    padding: 12px 0;
+}

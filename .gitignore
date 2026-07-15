@@ -8,6 +8,8 @@ web/app/upgrade
 web/app/uploads/*
 !web/app/uploads/.gitkeep
 web/app/cache/*
+# Downloaded translations (restored by WP on demand)
+web/app/languages/
 
 # WordPress
 web/wp
