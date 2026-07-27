@@ -5,3 +5,7 @@
 # Local-only design references, not part of the skeleton
 /resources/claude-design/
 /resources/img/
+
+# Raw client deliverables (6000px originals, ~420 MB). Web-ready derivatives
+# live in /resources/img/ and are generated from these.
+/resources/sources/
