@@ -37,4 +37,5 @@ function require_inc(string $relative): void {
 require_inc('vite.php');
 require_inc('setup.php');
 require_inc('assets.php');
+require_inc('nav.php');
 require_inc('meta/cmb2.php');

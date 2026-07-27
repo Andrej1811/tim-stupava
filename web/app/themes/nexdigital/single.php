@@ -12,7 +12,7 @@ get_header();
 while (have_posts()) :
     the_post();
     ?>
-    <article <?php post_class('mx-auto max-w-3xl'); ?>>
+    <article <?php post_class('site-container max-w-3xl py-10'); ?>>
         <header class="mb-8">
             <h1 class="text-4xl font-bold tracking-tight"><?php the_title(); ?></h1>
             <p class="mt-2 text-sm text-neutral-500">

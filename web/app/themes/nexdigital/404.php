@@ -10,7 +10,7 @@ declare(strict_types=1);
 get_header();
 ?>
 
-<section class="mx-auto max-w-2xl py-20 text-center">
+<section class="site-container max-w-2xl py-20 text-center">
     <p class="text-sm font-semibold uppercase tracking-wider text-brand-600">404</p>
     <h1 class="mt-2 text-4xl font-bold tracking-tight"><?php esc_html_e('Page not found', 'nexdigital'); ?></h1>
     <p class="mt-4 text-neutral-600"><?php esc_html_e('The page you are looking for does not exist.', 'nexdigital'); ?></p>

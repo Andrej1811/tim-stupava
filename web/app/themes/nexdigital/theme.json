@@ -5,17 +5,21 @@
         "appearanceTools": true,
         "layout": {
             "contentSize": "768px",
-            "wideSize": "1200px"
+            "wideSize": "1240px"
         },
         "color": {
             "custom": true,
             "customGradient": true,
             "palette": [
-                { "slug": "brand", "name": "Brand", "color": "#2563eb" },
-                { "slug": "brand-dark", "name": "Brand Dark", "color": "#1d4ed8" },
-                { "slug": "neutral-900", "name": "Ink", "color": "#171717" },
-                { "slug": "neutral-600", "name": "Muted", "color": "#525252" },
-                { "slug": "neutral-200", "name": "Border", "color": "#e5e5e5" },
+                { "slug": "brand", "name": "Petrol", "color": "#096165" },
+                { "slug": "brand-dark", "name": "Petrol Dark", "color": "#044c50" },
+                { "slug": "brand-deep", "name": "Petrol Deep", "color": "#001d1f" },
+                { "slug": "accent", "name": "Magenta", "color": "#e31754" },
+                { "slug": "teal", "name": "Teal", "color": "#13e4da" },
+                { "slug": "ink", "name": "Ink", "color": "#061920" },
+                { "slug": "muted", "name": "Muted", "color": "#465f68" },
+                { "slug": "border", "name": "Border", "color": "#dce7ea" },
+                { "slug": "surface", "name": "Surface", "color": "#f6f9fa" },
                 { "slug": "white", "name": "White", "color": "#ffffff" }
             ]
         },
@@ -25,7 +29,7 @@
                 {
                     "slug": "sans",
                     "name": "Sans",
-                    "fontFamily": "Inter, ui-sans-serif, system-ui, sans-serif"
+                    "fontFamily": "\"Montserrat Variable\", Montserrat, ui-sans-serif, system-ui, sans-serif"
                 }
             ]
         },
@@ -36,14 +40,14 @@
     "styles": {
         "color": {
             "background": "#ffffff",
-            "text": "#171717"
+            "text": "#061920"
         },
         "typography": {
             "fontFamily": "var(--wp--preset--font-family--sans)"
         },
         "elements": {
             "link": {
-                "color": { "text": "#2563eb" }
+                "color": { "text": "#096165" }
             }
         }
     }

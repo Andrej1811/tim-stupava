@@ -10,7 +10,7 @@ declare(strict_types=1);
 get_header();
 ?>
 
-<section class="py-16 text-center">
+<section class="site-container py-16 text-center">
     <h1 class="mx-auto max-w-3xl text-5xl font-bold tracking-tight sm:text-6xl">
         <?php bloginfo('name'); ?>
     </h1>
@@ -33,7 +33,7 @@ while (have_posts()) :
     the_post();
     if (trim(get_the_content()) !== '') :
         ?>
-        <div class="prose mx-auto max-w-3xl">
+        <div class="prose site-container max-w-3xl pb-16">
             <?php the_content(); ?>
         </div>
         <?php

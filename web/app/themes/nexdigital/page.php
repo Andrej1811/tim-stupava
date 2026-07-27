@@ -14,7 +14,7 @@ while (have_posts()) :
     $hide_title = get_post_meta(get_the_ID(), 'nexdigital_hide_title', true);
     $subtitle   = get_post_meta(get_the_ID(), 'nexdigital_subtitle', true);
     ?>
-    <article <?php post_class('mx-auto max-w-3xl'); ?>>
+    <article <?php post_class('site-container max-w-3xl py-10'); ?>>
         <?php if (!$hide_title) : ?>
             <header class="mb-8">
                 <h1 class="text-4xl font-bold tracking-tight"><?php the_title(); ?></h1>

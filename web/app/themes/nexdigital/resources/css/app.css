@@ -1,31 +1,176 @@
 @import "tailwindcss";
 
+/* Self-hosted Montserrat (variable). Deliberately not the Google Fonts CDN:
+   serving fonts from Google leaks visitor IPs to a third country, which is a
+   GDPR problem for a Slovak campaign site. Subsets carry unicode-range, so the
+   browser fetches latin + latin-ext only — latin-ext is what supplies the
+   Slovak diacritics (ľ ť ď ĺ ŕ ô ä č š ž). */
+@import "@fontsource-variable/montserrat";
+
 /* Scan PHP templates for class names (Tailwind v4 auto-detects, kept explicit for WP). */
 @source "../../**/*.php";
 
 /* --------------------------------------------------------------------------
-   Design tokens (Tailwind v4 CSS-first config).
-   These become utilities: bg-brand-600, text-brand-700, etc.
+   Tím Stupava — design tokens (Tailwind v4 CSS-first config), colours in OKLCH.
+   These become utilities: bg-brand-600, text-slate-600, border-slate-200, etc.
    Keep in sync with theme.json for the block editor.
+
+   Palette families:
+     brand  — petrol; primary, links, CTA, dark footer
+     accent — magenta; sparingly, for emphasis and the donate CTA
+     teal   — cyan highlight, used on dark brand surfaces only
+     slate  — cool neutral scale (surfaces, borders, muted text)
+     ink    — near-black body/heading text
+
+   Why petrol: teal (H 189) and magenta (H 13) are 176° apart — already a
+   complementary pair. A petrol primary at H 200 makes teal read as a light
+   tint of the brand instead of a third unrelated hue, and puts magenta
+   directly opposite it. It also drops the Demokrati violet, which shouldn't
+   carry a local coalition that includes SOM Slovensko.
+
+   Every value below sits inside the sRGB gamut and is contrast-audited; see
+   the WCAG notes on individual tokens.
    -------------------------------------------------------------------------- */
 @theme {
-    --color-brand-50:  #eff6ff;
-    --color-brand-100: #dbeafe;
-    --color-brand-200: #bfdbfe;
-    --color-brand-300: #93c5fd;
-    --color-brand-400: #60a5fa;
-    --color-brand-500: #3b82f6;
-    --color-brand-600: #2563eb;
-    --color-brand-700: #1d4ed8;
-    --color-brand-800: #1e40af;
-    --color-brand-900: #1e3a8a;
+    /* Petrol — brand */
+    --color-brand-50:  oklch(97.5% 0.012 200); /* #eef9fa */
+    --color-brand-100: oklch(94.5% 0.026 200); /* #daf3f4 */
+    --color-brand-200: oklch(89% 0.045 200);   /* #b9e4e6 */
+    --color-brand-300: oklch(79% 0.07 200);    /* #83c9cc */
+    --color-brand-400: oklch(62% 0.1 200);     /* #1c989e */
+    --color-brand-500: oklch(53% 0.087 200);   /* #0f7b80 */
+    --color-brand-600: oklch(45% 0.074 200);   /* #096165 — white on it 7.22:1 AA */
+    --color-brand-700: oklch(38% 0.063 200);   /* #044c50 — hover, 9.75:1 */
+    --color-brand-800: oklch(31% 0.052 200);   /* #01383b */
+    --color-brand-900: oklch(26% 0.045 200);   /* #002a2d */
+    --color-brand-950: oklch(21% 0.038 200);   /* #001d1f — footer, white 17.57:1 */
 
-    --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+    /* Magenta — accent.
+       accent-500 is the original hot pink: LARGE text (24px+) and graphic
+       fills only — it is 3.93:1 on white and fails AA for body copy.
+       accent-600 is the same hue darkened to clear 4.5:1 both ways — use it
+       for buttons, links and anything under 24px. */
+    --color-accent-400: oklch(70% 0.21 13.4);      /* #ff5f86 */
+    --color-accent-500: oklch(63.31% 0.2501 13.4); /* #fc0b5c — large/graphic only */
+    --color-accent-600: oklch(59% 0.227 13.4);     /* #e31754 — 4.65:1, safe for text */
+    --color-accent-700: oklch(51% 0.197 13.4);     /* #bb1044 — hover */
+
+    /* Cyan / teal — highlight on dark brand surfaces (10.99:1 on brand-950) */
+    --color-teal-400: oklch(82.94% 0.1419 189.1); /* #13e4da */
+    --color-teal-50:  oklch(98.85% 0.0075 186.9); /* #f6fdfc */
+    --color-teal-950: oklch(26.51% 0.0377 192.3); /* #0a2b2a */
+
+    /* Text ink — 17.98:1 on white */
+    --color-ink: oklch(20% 0.028 225); /* #061920 */
+
+    /* Cool neutral scale */
+    --color-slate-50:  oklch(98% 0.004 220);   /* #f6f9fa */
+    --color-slate-100: oklch(95.5% 0.008 220); /* #ebf1f4 */
+    --color-slate-200: oklch(92% 0.012 220);   /* #dce7ea */
+    --color-slate-300: oklch(79.5% 0.022 220); /* #adc0c6 */
+    --color-slate-400: oklch(60% 0.03 220);    /* #6d858d — 3.9:1, non-text only */
+    --color-slate-500: oklch(52% 0.032 220);   /* #556e76 */
+    --color-slate-600: oklch(47% 0.033 220);   /* #465f68 — muted text, 6.78:1 */
+    --color-slate-700: oklch(40% 0.034 220);   /* #334c54 */
+    --color-slate-800: oklch(32% 0.035 220);   /* #1d373f */
+    --color-slate-900: oklch(26% 0.033 220);   /* #10282f */
+
+    /* Site container width from the design (1240px). */
+    --container-site: 1240px;
+
+    /* Header height, shared by the sticky header and scroll-margin offsets. */
+    --spacing-header: 4.5rem;
+
+    --font-sans: "Montserrat Variable", "Montserrat", ui-sans-serif, system-ui, sans-serif;
 }
 
 /* Project base layer. */
 @layer base {
     body {
         font-family: var(--font-sans);
+        -webkit-font-smoothing: antialiased;
+    }
+
+    ::selection {
+        background: var(--color-teal-400);
+        color: var(--color-ink);
+    }
+
+    /* Anchor targets clear the sticky header. */
+    :target {
+        scroll-margin-top: calc(var(--spacing-header) + 1rem);
+    }
+
+    /* Visible keyboard focus, without boxing in mouse users. */
+    :focus-visible {
+        outline: 2px solid var(--color-brand-600);
+        outline-offset: 2px;
+        border-radius: 2px;
+    }
+}
+
+@layer components {
+    /* Horizontal page gutter, matched across header, footer and templates. */
+    .site-container {
+        margin-inline: auto;
+        width: 100%;
+        max-width: var(--container-site);
+        padding-inline: 1rem;
+    }
+
+    @media (width >= 40rem) {
+        .site-container {
+            padding-inline: 1.5rem;
+        }
+    }
+
+    /* WordPress emits .current-menu-item / .current-menu-ancestor on the <li>,
+       which utility classes on the <a> cannot reach — hence a component rule
+       rather than inline Tailwind. */
+    .site-nav a {
+        position: relative;
+        display: block;
+        padding-block: 0.5rem;
+        font-size: 0.875rem;
+        font-weight: 600;
+        color: var(--color-slate-600);
+        transition: color 150ms ease;
+    }
+
+    .site-nav a:hover {
+        color: var(--color-ink);
+    }
+
+    .site-nav .current-menu-item > a,
+    .site-nav .current-menu-ancestor > a,
+    .site-nav .current_page_item > a {
+        color: var(--color-ink);
+    }
+
+    /* Underline marker, desktop only — it reads as a tab indicator, which is
+       wrong in a stacked mobile list. */
+    @media (width >= 64rem) {
+        .site-nav .current-menu-item > a::after,
+        .site-nav .current-menu-ancestor > a::after,
+        .site-nav .current_page_item > a::after {
+            content: "";
+            position: absolute;
+            inset-inline: 0;
+            bottom: -0.35rem;
+            height: 3px;
+            border-radius: 2px;
+            background: var(--color-brand-600);
+        }
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
     }
 }

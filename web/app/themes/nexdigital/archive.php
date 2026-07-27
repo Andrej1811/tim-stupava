@@ -10,9 +10,10 @@ declare(strict_types=1);
 get_header();
 ?>
 
+<div class="site-container py-10">
 <header class="mb-8">
     <h1 class="text-3xl font-bold tracking-tight"><?php the_archive_title(); ?></h1>
-    <?php the_archive_description('<div class="mt-2 text-neutral-600">', '</div>'); ?>
+    <?php the_archive_description('<div class="mt-2 text-slate-600">', '</div>'); ?>
 </header>
 
 <?php if (have_posts()) : ?>
@@ -29,7 +30,8 @@ get_header();
         <?php the_posts_pagination(['mid_size' => 1]); ?>
     </div>
 <?php else : ?>
-    <p class="text-neutral-600"><?php esc_html_e('Nothing found.', 'nexdigital'); ?></p>
+    <p class="text-slate-600"><?php esc_html_e('Nothing found.', 'nexdigital'); ?></p>
 <?php endif; ?>
+</div>
 
 <?php get_footer(); ?>
