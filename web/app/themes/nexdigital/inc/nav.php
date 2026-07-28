@@ -18,16 +18,25 @@ if (!defined('ABSPATH')) {
  *
  * Mirrors the sitemap in the client brief (Návrh.pdf) minus "Domov" — the
  * wordmark already links home, so a Domov item would be a duplicate target.
- * "Podporte nás" is intentionally absent: it is the header CTA, not a nav item.
+ *
+ * Order follows the campaign's argument: who we are (Kandidáti), what we
+ * delivered (Výsledky), what comes next (Program), then the softer pages.
+ * Výsledky before Program is deliberate for an incumbent — the record earns
+ * the right to make promises.
+ *
+ * "Podpora" and the "Podporte nás" CTA are different things and both exist:
+ * Podpora is who backs us (parties, endorsements), the CTA is money. Keeping
+ * one label for both would make the donate ask disappear into an about page.
  *
  * @return array<string,string> path => label
  */
 function primary_items(): array {
     return [
         'kandidati' => __('Kandidáti', 'nexdigital'),
-        'program'   => __('Program', 'nexdigital'),
         'vysledky'  => __('Výsledky', 'nexdigital'),
+        'program'   => __('Program', 'nexdigital'),
         'novinky'   => __('Novinky', 'nexdigital'),
+        'podpora'   => __('Podpora', 'nexdigital'),
         'kontakt'   => __('Kontakt', 'nexdigital'),
     ];
 }

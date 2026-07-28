@@ -2,10 +2,10 @@
 /public/build/
 /public/hot
 
-# Local-only design references, not part of the skeleton
+# Local-only design references, not part of the theme
 /resources/claude-design/
-/resources/img/
 
 # Raw client deliverables (6000px originals, ~420 MB). Web-ready derivatives
-# live in /resources/img/ and are generated from these.
+# are generated from these into /resources/img/, which IS versioned — the logo
+# and other brand assets are part of the theme, not local scratch.
 /resources/sources/

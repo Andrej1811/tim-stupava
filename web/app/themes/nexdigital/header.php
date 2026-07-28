@@ -30,12 +30,24 @@ use function NexDigital\Theme\Nav\support_url;
 >
     <div class="site-container flex h-header items-center gap-6">
 
-        <a href="<?php echo esc_url(home_url('/')); ?>" class="flex shrink-0 flex-col leading-none">
-            <span class="mb-1.5 text-[0.5625rem] font-bold uppercase tracking-[0.2em] text-slate-400">
-                <?php esc_html_e('Komunálne voľby 2026', 'nexdigital'); ?>
-            </span>
-            <span class="text-xl font-black tracking-tight text-ink sm:text-[1.4rem]">
-                <span class="text-brand-600"><?php esc_html_e('TÍM', 'nexdigital'); ?></span> <?php esc_html_e('STUPAVA', 'nexdigital'); ?>
+        <a href="<?php echo esc_url(home_url('/')); ?>" class="flex shrink-0 items-center gap-2.5 sm:gap-3">
+            <?php // alt="" on purpose — the wordmark beside it already names the link. ?>
+            <img
+                src="<?php echo esc_url(get_theme_file_uri('/resources/img/stupava.png')); ?>"
+                alt=""
+                width="182"
+                height="200"
+                class="h-9 w-auto sm:h-10"
+                decoding="async"
+                fetchpriority="high"
+            >
+            <span class="flex flex-col leading-none">
+                <span class="mb-1.5 text-[0.5625rem] font-bold uppercase tracking-[0.2em] text-slate-400">
+                    <?php esc_html_e('Komunálne voľby 2026', 'nexdigital'); ?>
+                </span>
+                <span class="text-lg font-black tracking-tight text-ink sm:text-[1.4rem]">
+                    <span class="text-brand-600"><?php esc_html_e('TÍM', 'nexdigital'); ?></span> <?php esc_html_e('STUPAVA', 'nexdigital'); ?>
+                </span>
             </span>
         </a>
 
