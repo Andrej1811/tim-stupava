@@ -11,8 +11,8 @@ get_header();
 
 while (have_posts()) :
     the_post();
-    $hide_title = get_post_meta(get_the_ID(), 'nexdigital_hide_title', true);
-    $subtitle   = get_post_meta(get_the_ID(), 'nexdigital_subtitle', true);
+    $hide_title = (bool) \NexDigital\Theme\Fields\field('hide_title');
+    $subtitle   = (string) \NexDigital\Theme\Fields\field('subtitle');
     ?>
     <article <?php post_class('site-container max-w-3xl py-10'); ?>>
         <?php if (!$hide_title) : ?>

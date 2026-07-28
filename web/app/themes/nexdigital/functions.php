@@ -38,4 +38,7 @@ require_inc('vite.php');
 require_inc('setup.php');
 require_inc('assets.php');
 require_inc('nav.php');
-require_inc('meta/cmb2.php');
+require_inc('consent.php');
+// post-types before fields: the project field group reads project_stages().
+require_inc('post-types.php');
+require_inc('fields.php');

@@ -32,7 +32,6 @@
   ],
   "require": {
     "php": ">=8.3",
-    "cmb2/cmb2": "^2.12",
     "composer/installers": "^2.0",
     "oscarotero/env": "^2.0",
     "roots/bedrock-autoloader": "^1.0",
@@ -40,6 +39,7 @@
     "roots/wordpress": "7.0",
     "roots/wp-config": "^1.0",
     "vlucas/phpdotenv": "^5.0",
+    "wp-plugin/secure-custom-fields": "^6.4",
     "wp-theme/twentytwentyfive": "^1.0"
   },
   "require-dev": {

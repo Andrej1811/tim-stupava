@@ -4,64 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "509b47c7c52c177cde9ab1f3f72306df",
+    "content-hash": "ad24fdc553b1bccf6ba3db78ed82759e",
     "packages": [
-        {
-            "name": "cmb2/cmb2",
-            "version": "v2.12.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/CMB2/CMB2.git",
-                "reference": "9a3686d42539ee3c1113bd09623f4ffbbee94397"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/CMB2/CMB2/zipball/9a3686d42539ee3c1113bd09623f4ffbbee94397",
-                "reference": "9a3686d42539ee3c1113bd09623f4ffbbee94397",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">7.4"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "^9.6",
-                "yoast/phpunit-polyfills": "^1.1"
-            },
-            "suggest": {
-                "composer/installers": "~1.0"
-            },
-            "type": "wordpress-plugin",
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "GPL-2.0-or-later"
-            ],
-            "authors": [
-                {
-                    "name": "Justin Sternberg",
-                    "email": "justin@dsgnwrks.pro",
-                    "homepage": "https://dsgnwrks.pro",
-                    "role": "Developer"
-                },
-                {
-                    "name": "WebDevStudios",
-                    "email": "contact@webdevstudios.com",
-                    "homepage": "https://github.com/WebDevStudios",
-                    "role": "Developer"
-                }
-            ],
-            "description": "CMB2 is a metabox, custom fields, and forms library for WordPress that will blow your mind.",
-            "homepage": "https://github.com/CMB2/CMB2",
-            "keywords": [
-                "metabox",
-                "plugin",
-                "wordpress"
-            ],
-            "support": {
-                "issues": "https://github.com/CMB2/CMB2/issues",
-                "source": "http://wordpress.org/support/plugin/cmb2"
-            },
-            "time": "2026-05-31T02:21:57+00:00"
-        },
         {
             "name": "composer/installers",
             "version": "v2.3.0",
@@ -1096,6 +1040,37 @@
                 }
             ],
             "time": "2026-07-06T19:11:50+00:00"
+        },
+        {
+            "name": "wp-plugin/secure-custom-fields",
+            "version": "6.9.2",
+            "source": {
+                "type": "svn",
+                "url": "https://plugins.svn.wordpress.org/secure-custom-fields/",
+                "reference": "tags/6.9.2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://downloads.wordpress.org/plugin/secure-custom-fields.6.9.2.zip"
+            },
+            "require": {
+                "composer/installers": "~1.0|~2.0"
+            },
+            "type": "wordpress-plugin",
+            "notification-url": "https://wp-packages.org/downloads",
+            "authors": [
+                {
+                    "name": "WordPress.org"
+                }
+            ],
+            "description": "Secure Custom Fields boosts content management with custom fields and options. It deactivates Advanced Custom Fields to prevent duplicate code errors.",
+            "homepage": "https://developer.wordpress.org/secure-custom-fields/",
+            "support": {
+                "changelog": "https://wordpress.org/plugins/secure-custom-fields/#developers",
+                "issues": "https://wordpress.org/support/plugin/secure-custom-fields",
+                "source": "https://plugins.svn.wordpress.org/secure-custom-fields"
+            },
+            "time": "2026-07-21T15:45:58+00:00"
         },
         {
             "name": "wp-theme/twentytwentyfive",
