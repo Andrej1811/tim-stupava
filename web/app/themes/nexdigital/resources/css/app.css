@@ -7,6 +7,12 @@
    Slovak diacritics (ľ ť ď ĺ ŕ ô ä č š ž). */
 @import "@fontsource-variable/montserrat";
 
+/* Cookie consent banner: vendor stylesheet first, then our token remap. Both
+   stay outside @layer so the pair beats nothing and loses to nothing — they
+   are scoped to #cc-main and only ever fight each other. */
+@import "vanilla-cookieconsent/dist/cookieconsent.css";
+@import "./cookie-consent.css";
+
 /* Scan PHP templates for class names (Tailwind v4 auto-detects, kept explicit for WP). */
 @source "../../**/*.php";
 
