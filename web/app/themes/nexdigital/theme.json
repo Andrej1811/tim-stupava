@@ -44,11 +44,7 @@
         },
         "typography": {
             "fontFamily": "var(--wp--preset--font-family--sans)"
-        },
-        "elements": {
-            "link": {
-                "color": { "text": "#096165" }
-            }
         }
-    }
+    },
+    "_comment": "No styles.elements.link here on purpose. WordPress prints theme.json styles UNLAYERED, and unlayered CSS outranks every cascade layer regardless of specificity. Tailwind v4 puts all utilities in @layer, so an elements.link rule silently overrides text-white, .site-nav a and every other link utility. WP 7.0 exposes no filter on wp_get_global_stylesheet(), so it cannot be wrapped in a layer — the fix is to not emit the rule. Link colour belongs in Tailwind. Keep any future styles.* additions element-free for the same reason."
 }
