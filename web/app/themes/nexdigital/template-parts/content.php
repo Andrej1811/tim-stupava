@@ -10,8 +10,11 @@ declare(strict_types=1);
 <article <?php post_class('group flex flex-col overflow-hidden rounded-xl border border-neutral-200 transition hover:shadow-md'); ?>>
     <?php if (has_post_thumbnail()) : ?>
         <a href="<?php the_permalink(); ?>" class="block overflow-hidden">
+            <?php // object-top, not the default centre: a portrait forced into a
+                  // 16:9 box loses more than half its height, and cropping from
+                  // the centre takes the face with it. ?>
             <?php the_post_thumbnail('medium_large', [
-                'class' => 'aspect-video w-full object-cover transition duration-300 group-hover:scale-105',
+                'class' => 'aspect-video w-full object-cover object-top transition duration-300 group-hover:scale-105',
             ]); ?>
         </a>
     <?php endif; ?>

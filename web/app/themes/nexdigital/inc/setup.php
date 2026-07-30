@@ -49,3 +49,17 @@ function content_width(): void {
     $GLOBALS['content_width'] = 1200;
 }
 add_action('after_setup_theme', __NAMESPACE__ . '\\content_width', 0);
+
+/**
+ * Drop the "Archívy:" / "Kategória:" prefix from archive headings.
+ *
+ * WordPress prefixes the heading with the kind of archive you are on, which
+ * reads as an admin label rather than a page title — "Archívy: Kandidáti"
+ * where the page is simply the candidates. Filtering the prefix rather than
+ * rewriting the title covers every archive type at once and leaves the title
+ * itself, and its translation, alone.
+ */
+function archive_title_prefix(): string {
+    return '';
+}
+add_filter('get_the_archive_title_prefix', __NAMESPACE__ . '\\archive_title_prefix');
