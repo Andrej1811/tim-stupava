@@ -42,3 +42,12 @@ require_inc('consent.php');
 // post-types before fields: the project field group reads project_stages().
 require_inc('post-types.php');
 require_inc('fields.php');
+// analytics and branding after fields: both read theme options.
+require_inc('analytics.php');
+require_inc('branding.php');
+require_inc('video.php');
+require_inc('social.php');
+// admin after post-types: the project list table reads project_stages().
+require_inc('admin.php');
+// blocks after fields: block field groups use the Fields helpers.
+require_inc('blocks.php');

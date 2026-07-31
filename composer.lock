@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ad24fdc553b1bccf6ba3db78ed82759e",
+    "content-hash": "0976bb96b8715bc8b0d2d2e2cb891f4c",
     "packages": [
         {
             "name": "composer/installers",
@@ -1071,6 +1071,37 @@
                 "source": "https://plugins.svn.wordpress.org/secure-custom-fields"
             },
             "time": "2026-07-21T15:45:58+00:00"
+        },
+        {
+            "name": "wp-plugin/webp-converter-for-media",
+            "version": "6.6.2",
+            "source": {
+                "type": "svn",
+                "url": "https://plugins.svn.wordpress.org/webp-converter-for-media/",
+                "reference": "tags/6.6.2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://downloads.wordpress.org/plugin/webp-converter-for-media.6.6.2.zip"
+            },
+            "require": {
+                "composer/installers": "~1.0|~2.0"
+            },
+            "type": "wordpress-plugin",
+            "notification-url": "https://wp-packages.org/downloads",
+            "authors": [
+                {
+                    "name": "Mateusz Gbiorczyk"
+                }
+            ],
+            "description": "Speed up your website by using our WebP & AVIF Converter. Optimize images and serve WebP and AVIF images instead of standard formats!",
+            "homepage": "https://mattplugins.com/products/webp-converter-for-media-pro",
+            "support": {
+                "changelog": "https://wordpress.org/plugins/webp-converter-for-media/#developers",
+                "issues": "https://wordpress.org/support/plugin/webp-converter-for-media",
+                "source": "https://plugins.svn.wordpress.org/webp-converter-for-media"
+            },
+            "time": "2026-07-17T11:21:02+00:00"
         },
         {
             "name": "wp-theme/twentytwentyfive",
