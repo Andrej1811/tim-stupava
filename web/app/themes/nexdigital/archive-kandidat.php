@@ -19,6 +19,7 @@
 declare(strict_types=1);
 
 use function NexDigital\Theme\Fields\field;
+use function NexDigital\Theme\Fields\option;
 
 get_header();
 
@@ -38,25 +39,15 @@ while (have_posts()) {
 }
 ?>
 
-<?php // Top padding only: candidates-section brings its own generous py-16 and
-      // the two stacked left a band of empty sand between the intro and the
-      // first card. Same background on both, so the seam is invisible. ?>
-<div class="bg-sand-50 pt-12 sm:pt-16">
-    <div class="site-container">
-        <h1 class="text-3xl font-black leading-[1.05] tracking-tight text-ink sm:text-4xl lg:text-5xl">
-            <?php the_archive_title(); ?>
-        </h1>
-
-        <?php the_archive_description('<div class="mt-5 max-w-2xl text-base leading-relaxed text-slate-700">', '</div>'); ?>
-
-        <p class="mt-5 max-w-2xl text-base leading-relaxed text-slate-700">
-            <?php esc_html_e('Kandidáti sú zoradení podľa poradového čísla na hlasovacom lístku — v tom istom poradí, v akom ich nájdete na papieri vo volebnej miestnosti.', 'nexdigital'); ?>
-        </p>
-    </div>
-</div>
-
+<?php // The heading and intro go through candidates-section rather than sitting in
+      // a block of their own above it. Two stacked blocks meant two sets of
+      // vertical padding and a band of empty sand between the text and the
+      // first card. ?>
 <?php if ($leaders !== [] || $rest !== []) : ?>
     <?php get_template_part('template-parts/candidates-section', null, [
+        'heading' => 'h1',
+        'title'   => trim((string) (option('opt_kandidati_nadpis') ?: '')) ?: get_the_archive_title(),
+        'text'    => trim((string) (option('opt_kandidati_uvod') ?: '')),
         'leaders' => $leaders,
         'rest'    => $rest,
     ]); ?>

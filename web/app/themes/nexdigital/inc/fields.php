@@ -113,12 +113,16 @@ function register_options_pages(): void {
         'redirect'   => true,
     ]);
 
+    // Identity first: the parent menu redirects to whichever sub-page leads.
     $children = [
+        'identita'  => __('Logo a identita', 'nexdigital'),
         'kontakt'   => __('Kontakt', 'nexdigital'),
+        'kandidati' => __('Kandidáti', 'nexdigital'),
         'socialne'  => __('Sociálne siete', 'nexdigital'),
         'podpora'   => __('Podpora a dary', 'nexdigital'),
         'partneri'  => __('Partneri', 'nexdigital'),
         'zdielanie' => __('Zdieľanie a SEO', 'nexdigital'),
+        'meranie'   => __('Meranie', 'nexdigital'),
     ];
 
     foreach ($children as $slug => $title) {
