@@ -116,15 +116,41 @@ while (have_posts()) :
                         <?php echo esc_html($done ? __('Fotografie', 'nexdigital') : __('Vizualizácie', 'nexdigital')); ?>
                     </h2>
 
-                    <ul class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                        <?php foreach ($gallery as $image_id) : ?>
-                            <li class="overflow-hidden rounded-lg bg-white">
-                                <?php echo wp_get_attachment_image((int) $image_id, 'large', false, [
-                                    'class'    => 'aspect-video w-full object-cover',
-                                    'alt'      => $title,
-                                    'loading'  => 'lazy',
-                                    'decoding' => 'async',
-                                ]); ?>
+                    <?php // Real links to the full-size file: without JavaScript the
+                          // gallery is still a gallery, it just opens the photograph
+                          // instead of a dialog. ?>
+                    <ul class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3" data-lightbox>
+                        <?php foreach ($gallery as $index => $image_id) : ?>
+                            <?php
+                            $image_id = (int) $image_id;
+                            $full = wp_get_attachment_image_url($image_id, 'full');
+
+                            if ($full === false) {
+                                continue;
+                            }
+
+                            $caption = trim((string) wp_get_attachment_caption($image_id));
+                            ?>
+                            <li>
+                                <a
+                                    href="<?php echo esc_url($full); ?>"
+                                    class="group block overflow-hidden rounded-lg bg-white"
+                                    data-lightbox-item
+                                    data-lightbox-caption="<?php echo esc_attr($caption); ?>"
+                                >
+                                    <span class="sr-only">
+                                        <?php printf(
+                                            esc_html__('Zväčšiť fotografiu %d', 'nexdigital'),
+                                            (int) $index + 1
+                                        ); ?>
+                                    </span>
+                                    <?php echo wp_get_attachment_image($image_id, 'large', false, [
+                                        'class'    => 'aspect-video w-full object-cover transition duration-300 group-hover:scale-[1.03]',
+                                        'alt'      => $caption !== '' ? $caption : $title,
+                                        'loading'  => 'lazy',
+                                        'decoding' => 'async',
+                                    ]); ?>
+                                </a>
                             </li>
                         <?php endforeach; ?>
                     </ul>

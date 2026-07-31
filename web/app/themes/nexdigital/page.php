@@ -24,7 +24,7 @@ while (have_posts()) :
             </header>
         <?php endif; ?>
 
-        <div class="prose max-w-none">
+        <div class="rich-text">
             <?php the_content(); ?>
         </div>
     </article>

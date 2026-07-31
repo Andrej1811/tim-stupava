@@ -130,6 +130,29 @@ function register(): void {
 add_action('init', __NAMESPACE__ . '\\register');
 
 /**
+ * Post types whose main content stays on the classic editor.
+ *
+ * A candidate profile is a photo, a set of fields and a few paragraphs of CV —
+ * the block editor adds a canvas, block inserter and sidebar around what is
+ * really a text box, and pushes the SCF fields below the fold. `show_in_rest`
+ * stays true, so the REST API and the media library are unaffected; this only
+ * decides which editor the screen loads.
+ *
+ * A project is the same shape: a description, a stage, a few facts and a
+ * gallery, all of which live in fields rather than in blocks.
+ *
+ * @return array<int, string>
+ */
+function classic_editor_post_types(): array {
+    return (array) apply_filters('nexdigital/classic_editor_post_types', ['kandidat', 'projekt']);
+}
+
+function disable_block_editor(bool $use_block_editor, string $post_type): bool {
+    return in_array($post_type, classic_editor_post_types(), true) ? false : $use_block_editor;
+}
+add_filter('use_block_editor_for_post_type', __NAMESPACE__ . '\\disable_block_editor', 10, 2);
+
+/**
  * Order candidates by ballot number.
  *
  * In Slovak municipal elections voters circle numbers on the ballot, so the
