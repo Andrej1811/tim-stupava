@@ -73,7 +73,7 @@ $video = source($post_id);
                 <?php if ($email !== '') : ?>
                     <a
                         href="<?php echo esc_url('mailto:' . $email); ?>"
-                        class="inline-flex items-center gap-2 rounded-md border border-white/40 px-4 py-2.5 text-sm font-bold transition hover:border-white hover:bg-white/10"
+                        class="btn btn-ghost btn-sm"
                     >
                         <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                             <rect width="20" height="16" x="2" y="4" rx="2" />
@@ -88,7 +88,7 @@ $video = source($post_id);
                         href="<?php echo esc_url($facebook); ?>"
                         target="_blank"
                         rel="noopener noreferrer"
-                        class="inline-flex items-center gap-2 rounded-md border border-white/40 px-4 py-2.5 text-sm font-bold transition hover:border-white hover:bg-white/10"
+                        class="btn btn-ghost btn-sm"
                     >
                         <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                             <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />

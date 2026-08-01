@@ -124,7 +124,7 @@ $link_label = trim((string) ($link['title'] ?? ''));
                 <a
                     href="<?php echo esc_url($link_url); ?>"
                     <?php echo ($link['target'] ?? '') !== '' ? 'target="' . esc_attr($link['target']) . '" rel="noopener"' : ''; ?>
-                    class="inline-flex items-center justify-center rounded-md bg-brand-600 px-6 py-3.5 text-sm font-bold text-white transition hover:bg-brand-700"
+                    class="btn btn-primary"
                 >
                     <?php echo esc_html($link_label); ?>
                 </a>

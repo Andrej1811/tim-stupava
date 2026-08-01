@@ -7,6 +7,7 @@
 
 declare(strict_types=1);
 
+use function NexDigital\Theme\Branding\logo;
 use function NexDigital\Theme\Nav\primary_menu;
 use function NexDigital\Theme\Nav\support_url;
 ?>
@@ -30,22 +31,17 @@ use function NexDigital\Theme\Nav\support_url;
 >
     <div class="site-container flex h-header items-center gap-6">
 
-        <a href="<?php echo esc_url(home_url('/')); ?>" class="flex shrink-0 items-center gap-2.5 sm:gap-3">
-            <?php // alt="" on purpose — the wordmark beside it already names the link. ?>
-            <img
-                src="<?php echo esc_url(get_theme_file_uri('/resources/img/stupava.png')); ?>"
-                alt=""
-                width="182"
-                height="200"
-                class="h-9 w-auto sm:h-10"
-                decoding="async"
-                fetchpriority="high"
-            >
+        <a href="<?php echo esc_url(home_url('/')); ?>" class="flex shrink-0 items-center gap-2 sm:gap-2.5">
+            <?php logo('h-11 w-auto sm:h-[3.25rem]'); ?>
             <span class="flex flex-col leading-none">
-                <span class="mb-1.5 text-[0.5625rem] font-bold uppercase tracking-[0.2em] text-slate-400">
+                <?php // mb-2 with leading-none on the wordmark reads tighter than the old mb-1.5
+                      // did: text-lg carries its own 1.556 ratio, which survived the parent's
+                      // leading-none (Tailwind registers --tw-leading as non-inheriting) and
+                      // padded 10px of phantom leading between the two lines. ?>
+                <span class="mb-2 text-[0.5625rem] font-bold uppercase tracking-[0.2em] text-slate-400">
                     <?php esc_html_e('Komunálne voľby 2026', 'nexdigital'); ?>
                 </span>
-                <span class="text-lg font-black tracking-tight text-ink sm:text-[1.4rem]">
+                <span class="text-lg font-black leading-none tracking-tight text-ink sm:text-[1.4rem]">
                     <span class="text-brand-600"><?php esc_html_e('TÍM', 'nexdigital'); ?></span> <?php esc_html_e('STUPAVA', 'nexdigital'); ?>
                 </span>
             </span>
@@ -57,14 +53,14 @@ use function NexDigital\Theme\Nav\support_url;
 
         <a
             href="<?php echo esc_url(support_url()); ?>"
-            class="ml-auto hidden shrink-0 rounded-md bg-accent-600 px-5 py-2.5 text-sm font-bold text-white transition hover:bg-accent-700 sm:inline-flex lg:ml-0"
+            class="btn btn-accent btn-sm ml-auto hidden shrink-0 sm:inline-flex lg:ml-0"
         >
             <?php esc_html_e('Podporte nás', 'nexdigital'); ?>
         </a>
 
         <button
             type="button"
-            class="-mr-2 ml-auto inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-md text-ink transition hover:bg-slate-100 sm:ml-0 lg:hidden"
+            class="btn-icon -mr-2 ml-auto sm:ml-0 lg:hidden"
             aria-controls="site-menu"
             aria-expanded="false"
             data-menu-toggle
@@ -85,7 +81,7 @@ use function NexDigital\Theme\Nav\support_url;
 
             <a
                 href="<?php echo esc_url(support_url()); ?>"
-                class="mt-4 inline-flex w-full items-center justify-center rounded-md bg-accent-600 px-5 py-3 text-sm font-bold text-white transition hover:bg-accent-700 sm:hidden"
+                class="btn btn-accent btn-block mt-4 sm:hidden"
             >
                 <?php esc_html_e('Podporte nás', 'nexdigital'); ?>
             </a>

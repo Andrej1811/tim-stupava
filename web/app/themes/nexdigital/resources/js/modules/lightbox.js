@@ -46,12 +46,13 @@ class Lightbox {
 
         // Static literal — nothing is interpolated into it. Everything that
         // varies per photograph is set later through textContent and .src.
+        // Controls use the theme's .btn-overlay component so they match the
+        // carousel arrows rather than being styled twice.
         this.dialog.innerHTML = `
-            <div class="relative flex h-full w-full flex-col">
+            <div class="lightbox-frame relative flex h-full w-full flex-col">
                 <div class="flex items-center justify-between gap-4 p-4 text-white">
                     <p data-lightbox-counter class="text-sm font-bold tabular-nums"></p>
-                    <button type="button" data-lightbox-close
-                        class="flex h-11 w-11 items-center justify-center rounded-full bg-white/10 transition hover:bg-white/20">
+                    <button type="button" data-lightbox-close class="btn-overlay">
                         <span class="sr-only">Zavrieť</span>
                         <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
                             <path d="M18 6 6 18M6 6l12 12" />
@@ -60,13 +61,13 @@ class Lightbox {
                 </div>
 
                 <div class="flex min-h-0 flex-1 items-center justify-center px-4 pb-4">
-                    <img data-lightbox-image alt="" class="max-h-full max-w-full object-contain" />
+                    <img data-lightbox-image alt="" class="lightbox-image max-h-full max-w-full object-contain" />
                 </div>
 
                 <p data-lightbox-caption class="px-4 pb-6 text-center text-sm text-slate-300"></p>
 
                 <button type="button" data-lightbox-prev
-                    class="absolute left-2 top-1/2 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full bg-white/10 text-white transition hover:bg-white/20 sm:left-4">
+                    class="btn-overlay absolute left-2 top-1/2 -translate-y-1/2 sm:left-4">
                     <span class="sr-only">Predchádzajúca fotografia</span>
                     <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                         <path d="m15 18-6-6 6-6" />
@@ -74,7 +75,7 @@ class Lightbox {
                 </button>
 
                 <button type="button" data-lightbox-next
-                    class="absolute right-2 top-1/2 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full bg-white/10 text-white transition hover:bg-white/20 sm:right-4">
+                    class="btn-overlay absolute right-2 top-1/2 -translate-y-1/2 sm:right-4">
                     <span class="sr-only">Ďalšia fotografia</span>
                     <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                         <path d="m9 18 6-6-6-6" />
@@ -98,8 +99,8 @@ class Lightbox {
         prev.hidden = single;
         next.hidden = single;
 
-        prev.addEventListener("click", () => this.show(this.index - 1));
-        next.addEventListener("click", () => this.show(this.index + 1));
+        prev.addEventListener("click", () => this.show(this.index - 1, -1));
+        next.addEventListener("click", () => this.show(this.index + 1, 1));
         this.dialog
             .querySelector("[data-lightbox-close]")
             .addEventListener("click", () => this.dialog.close());
@@ -107,10 +108,10 @@ class Lightbox {
         this.dialog.addEventListener("keydown", (event) => {
             if (event.key === "ArrowRight") {
                 event.preventDefault();
-                this.show(this.index + 1);
+                this.show(this.index + 1, 1);
             } else if (event.key === "ArrowLeft") {
                 event.preventDefault();
-                this.show(this.index - 1);
+                this.show(this.index - 1, -1);
             }
         });
 
@@ -137,14 +138,28 @@ class Lightbox {
         this.dialog.showModal();
     }
 
-    /** Wraps around, so the arrows never dead-end. */
-    show(index) {
+    /**
+     * Wraps around, so the arrows never dead-end.
+     *
+     * `direction` is 0 on open and ±1 when arrowing, which decides which side
+     * the next photograph slides in from.
+     */
+    show(index, direction = 0) {
         const total = this.items.length;
-        this.index = (index + total) % total;
+        this.index = ((index % total) + total) % total;
 
         const item = this.items[this.index];
         const full = item.getAttribute("href");
         const label = item.dataset.lightboxCaption || "";
+
+        if (direction !== 0) {
+            // Park the image at the offset, let one frame paint, then release
+            // it — without the reflow the browser coalesces both states and
+            // nothing moves.
+            this.image.classList.add(direction > 0 ? "is-entering-next" : "is-entering-prev");
+            void this.image.offsetWidth;
+            this.image.classList.remove("is-entering-next", "is-entering-prev");
+        }
 
         this.image.src = full;
         this.image.alt = label;

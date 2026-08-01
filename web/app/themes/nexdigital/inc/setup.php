@@ -63,3 +63,14 @@ function archive_title_prefix(): string {
     return '';
 }
 add_filter('get_the_archive_title_prefix', __NAMESPACE__ . '\\archive_title_prefix');
+
+/**
+ * End a trimmed excerpt with an ellipsis, not " [&hellip;]".
+ *
+ * The bracketed form is an editorial convention for "text was cut from a
+ * quotation"; on a card it just reads as debris.
+ */
+function excerpt_more(): string {
+    return '…';
+}
+add_filter('excerpt_more', __NAMESPACE__ . '\\excerpt_more');

@@ -75,7 +75,7 @@ $programme = $programme_page instanceof WP_Post ? get_permalink($programme_page)
             <?php if (is_string($archive) && $archive !== '') : ?>
                 <a
                     href="<?php echo esc_url($archive); ?>"
-                    class="inline-flex items-center justify-center rounded-md bg-white px-6 py-3.5 text-sm font-bold text-brand-950 transition hover:bg-teal-400"
+                    class="btn btn-light"
                 >
                     <?php esc_html_e('Všetci kandidáti', 'nexdigital'); ?>
                 </a>
@@ -84,7 +84,7 @@ $programme = $programme_page instanceof WP_Post ? get_permalink($programme_page)
             <?php if (is_string($programme) && $programme !== '') : ?>
                 <a
                     href="<?php echo esc_url($programme); ?>"
-                    class="inline-flex items-center justify-center rounded-md border border-white/40 px-6 py-3.5 text-sm font-bold text-white transition hover:border-white hover:bg-white/10"
+                    class="btn btn-ghost"
                 >
                     <?php esc_html_e('Náš program', 'nexdigital'); ?>
                 </a>
