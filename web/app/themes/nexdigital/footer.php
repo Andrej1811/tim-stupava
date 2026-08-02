@@ -107,7 +107,7 @@ $partners = is_array($partners) ? $partners : [];
                         <?php esc_html_e('Komunálne voľby 2026', 'nexdigital'); ?>
                     </span>
                     <span class="text-lg font-black leading-none tracking-tight text-white">
-                        <span class="text-teal-400"><?php esc_html_e('TÍM', 'nexdigital'); ?></span> <?php esc_html_e('STUPAVA', 'nexdigital'); ?>
+                        <span class="text-teal-400"><?php esc_html_e('PRE', 'nexdigital'); ?></span> <?php esc_html_e('STUPAVU', 'nexdigital'); ?>
                     </span>
                 </span>
             </a>

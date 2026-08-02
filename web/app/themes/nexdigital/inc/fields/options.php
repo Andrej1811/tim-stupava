@@ -27,6 +27,29 @@ function on_options_page(string $slug): array {
 }
 
 /* -------------------------------------------------------------------------
+   Logo a identita
+   ------------------------------------------------------------------------- */
+acf_add_local_field_group([
+    'key'      => 'group_ts_opt_identita',
+    'title'    => __('Logo a identita', 'nexdigital'),
+    'active'   => true,
+    'location' => on_options_page('nastavenia-identita'),
+    'fields'   => [
+        image_field(
+            [
+                'key'          => 'field_ts_opt_logo',
+                'label'        => __('Logo v hlavičke', 'nexdigital'),
+                'name'         => key('opt_logo'),
+                'instructions' => __('Zobrazuje sa vľavo hore vedľa nápisu PRE STUPAVU. Nahraj ho na priehľadnom pozadí — biele pozadie by vytvorilo viditeľný štvorec. Bez nahratia sa použije erb dodaný s témou.', 'nexdigital'),
+            ],
+            '600 × 660 px',
+            __('približne štvorec, mierne na výšku', 'nexdigital'),
+            'PNG s priehľadnosťou'
+        ),
+    ],
+]);
+
+/* -------------------------------------------------------------------------
    Kontakt
    ------------------------------------------------------------------------- */
 acf_add_local_field_group([
@@ -236,6 +259,68 @@ acf_add_local_field_group([
             'rows'         => 2,
             'maxlength'    => 160,
             'instructions' => __('Jedna až dve vety, ktoré uvidia ľudia v Google. Maximálne 160 znakov — dlhší text sa oreže.', 'nexdigital'),
+        ],
+    ],
+]);
+
+/* -------------------------------------------------------------------------
+   Kandidáti
+
+   The candidate archive lives at /kandidati/ and has no editable object of its
+   own — a post type archive is not a page, and no page may take that slug
+   because the two cannot share a permalink. So its heading and intro live here.
+   ------------------------------------------------------------------------- */
+acf_add_local_field_group([
+    'key'      => 'group_ts_opt_kandidati',
+    'title'    => __('Stránka Kandidáti', 'nexdigital'),
+    'active'   => true,
+    'location' => on_options_page('nastavenia-kandidati'),
+    'fields'   => [
+        [
+            'key'          => 'field_ts_opt_kandidati_nadpis',
+            'label'        => __('Nadpis', 'nexdigital'),
+            'name'         => key('opt_kandidati_nadpis'),
+            'type'         => 'text',
+            'placeholder'  => __('Kandidáti', 'nexdigital'),
+            'instructions' => __('Nechaj prázdne a použije sa názov „Kandidáti“.', 'nexdigital'),
+        ],
+        [
+            'key'          => 'field_ts_opt_kandidati_uvod',
+            'label'        => __('Úvodný text', 'nexdigital'),
+            'name'         => key('opt_kandidati_uvod'),
+            'type'         => 'textarea',
+            'rows'         => 3,
+            'instructions' => __('Jeden odsek nad zoznamom kandidátov. Keď ho vymažeš, nezobrazí sa nič — prázdne miesto nevznikne.', 'nexdigital'),
+        ],
+    ],
+]);
+
+/* -------------------------------------------------------------------------
+   Meranie
+   ------------------------------------------------------------------------- */
+acf_add_local_field_group([
+    'key'      => 'group_ts_opt_meranie',
+    'title'    => __('Meranie návštevnosti', 'nexdigital'),
+    'active'   => true,
+    'location' => on_options_page('nastavenia-meranie'),
+    'fields'   => [
+        [
+            'key'          => 'field_ts_opt_gtm_id',
+            'label'        => __('Google Tag Manager — ID kontajnera', 'nexdigital'),
+            'name'         => key('opt_gtm_id'),
+            'type'         => 'text',
+            'placeholder'  => 'GTM-XXXXXXX',
+            'maxlength'    => 20,
+            'wrapper'      => ['width' => '50'],
+            'instructions' => __('Nájdeš ho v Google Tag Manageri vpravo hore, vedľa názvu kontajnera. Prázdne pole znamená, že sa na webe nespustí žiadne meranie. Všetky ostatné nástroje (Google Analytics, Meta Pixel, remarketing) sa pridávajú už len v GTM — do webu sa nič ďalšie nevkladá.', 'nexdigital'),
+        ],
+        [
+            'key'     => 'field_ts_opt_meranie_info',
+            'label'   => __('Ako je to prepojené so súhlasom', 'nexdigital'),
+            'name'    => '',
+            'type'    => 'message',
+            'esc_html' => 0,
+            'message' => __('<p>Kontajner sa načíta vždy, ale s <strong>Google Consent Mode v2</strong>: kým návštevník neklikne v cookie lište na súhlas, značky nesmú zapisovať cookies ani posielať identifikátory.</p><p>Kategórie z cookie lišty sa mapujú takto:</p><ul><li><strong>Analytické</strong> → <code>analytics_storage</code></li><li><strong>Marketingové</strong> → <code>ad_storage</code>, <code>ad_user_data</code>, <code>ad_personalization</code>, <code>personalization_storage</code></li></ul><p>Pri každej zmene súhlasu sa do <code>dataLayer</code> pošle udalosť <code>cookie_consent_update</code> — dá sa použiť ako spúšťač v GTM.</p><p><em>Prihlásení redaktori sa nemerajú</em>, aby vlastné návštevy neskresľovali štatistiky. Meranie si overíš v anonymnom okne alebo cez Náhľad (Preview) v GTM.</p>', 'nexdigital'),
         ],
     ],
 ]);

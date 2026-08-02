@@ -8,8 +8,10 @@
  * definition drives the rendered form, the validator and the notification mail,
  * so a field cannot exist on screen and be missing from the e-mail.
  *
- * Keys the plugin reads: label, type, required. The rest (placeholder, hint,
- * autocomplete, width) are ours and only reach the renderer.
+ * Keys the plugin reads: `name` (the admin menu label — not `title`, which it
+ * silently ignores and then warns about), recipient, subject, and per field
+ * label, type, required. The rest (placeholder, hint, autocomplete, width) are
+ * ours and only reach the renderer.
  *
  * @package NexDigital
  */
@@ -67,9 +69,9 @@ function register(): void {
     $recipient = trim((string) (option('opt_email') ?? '')) ?: get_option('admin_email');
 
     nxd_form_register(CONTACT, [
-        'title'     => __('Kontaktný formulár', 'nexdigital'),
+        'name'      => __('Kontaktný formulár', 'nexdigital'),
         'recipient' => $recipient,
-        'subject'   => __('Nová správa z webu Tím Stupava', 'nexdigital'),
+        'subject'   => __('Nová správa z webu Pre Stupavu', 'nexdigital'),
         'fields'    => [
             'meno' => [
                 'label'        => __('Meno a priezvisko', 'nexdigital'),
@@ -103,7 +105,7 @@ function register(): void {
     ]);
 
     nxd_form_register(IDEA, [
-        'title'     => __('Nápad obyvateľa', 'nexdigital'),
+        'name'      => __('Nápad obyvateľa', 'nexdigital'),
         'recipient' => $recipient,
         'subject'   => __('Nový námet od obyvateľa Stupavy', 'nexdigital'),
         'fields'    => [

@@ -42,7 +42,7 @@ use function NexDigital\Theme\Nav\support_url;
                     <?php esc_html_e('Komunálne voľby 2026', 'nexdigital'); ?>
                 </span>
                 <span class="text-lg font-black leading-none tracking-tight text-ink sm:text-[1.4rem]">
-                    <span class="text-brand-600"><?php esc_html_e('TÍM', 'nexdigital'); ?></span> <?php esc_html_e('STUPAVA', 'nexdigital'); ?>
+                    <span class="text-brand-600"><?php esc_html_e('PRE', 'nexdigital'); ?></span> <?php esc_html_e('STUPAVU', 'nexdigital'); ?>
                 </span>
             </span>
         </a>
