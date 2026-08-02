@@ -6,7 +6,7 @@
  * appears here, in the validator and in the notification mail at once. Markup
  * uses the theme's .form-* components — see app.css.
  *
- * The plugin's JavaScript looks for `form[data-ngo-form]`, marks failed fields
+ * The plugin's JavaScript looks for `form[data-nxd-form]`, marks failed fields
  * by `[data-field="<key>"]`, and replaces the container on success, so those
  * three hooks are a contract and must stay.
  *
@@ -33,11 +33,11 @@ if ($fields === []) {
 $submit = trim((string) ($args['submit'] ?? '')) ?: __('Odoslať správu', 'nexdigital');
 ?>
 
-<div data-ngo-form>
+<div data-nxd-form>
     <form
         class="flex flex-col gap-5"
         method="post"
-        data-ngo-form
+        data-nxd-form
         novalidate
     >
         <?php nxd_form_fields($slug); ?>

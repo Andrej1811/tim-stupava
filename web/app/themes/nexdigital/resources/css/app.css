@@ -366,14 +366,56 @@
         background-size: 1.25rem;
     }
 
-    /* Checkbox or radio sitting beside its label — the GDPR consent row. */
+    /* Checkbox sitting beside its label — the GDPR consent row.
+
+       Drawn from scratch rather than left native: every browser paints its own
+       accent (Chrome and Safari default to system blue), which is the one
+       colour on this page that belongs to no palette family. appearance:none
+       hands the box over, and the tick is a background image so the control
+       stays a single element the label can still be clicked to toggle. */
     .form-check {
         @apply flex items-start gap-3;
     }
 
     .form-check-input {
-        @apply mt-0.5 h-5 w-5 shrink-0 cursor-pointer rounded border-slate-300 text-brand-600 transition;
-        @apply focus:ring-2 focus:ring-brand-600/25;
+        @apply mt-0.5 h-5 w-5 shrink-0 cursor-pointer rounded border border-slate-300 bg-white transition;
+        appearance: none;
+        -webkit-appearance: none;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: 0.875rem;
+    }
+
+    .form-check-input:hover {
+        @apply border-slate-400;
+    }
+
+    .form-check-input:checked {
+        @apply border-brand-600 bg-brand-600;
+        /* Tick in white, on the lucide 24×24 grid like every other icon here. */
+        background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23ffffff' stroke-width='3.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E");
+    }
+
+    /* The global :focus-visible outline would trace the rounded box loosely;
+       a ring hugs it and reads as part of the control. */
+    .form-check-input:focus-visible {
+        @apply border-brand-600 outline-none ring-2 ring-brand-600/30;
+        outline: none;
+    }
+
+    .form-check-input:disabled {
+        @apply cursor-not-allowed border-slate-200 bg-slate-50;
+    }
+
+    .form-check-input:disabled:checked {
+        @apply border-slate-300 bg-slate-300;
+    }
+
+    /* A failed consent box is the one field where the error has to be obvious
+       without reading — it blocks the whole submission. */
+    .form-check-input[aria-invalid="true"],
+    .form-check-input.nxd-field-invalid {
+        @apply border-accent-600 ring-2 ring-accent-600/20;
     }
 
     .form-check-label {
@@ -409,24 +451,24 @@
     }
 
     /* nxd-forms writes its own state markup on submit: it adds
-       .ngo-field-invalid to a failed field and injects .ngo-field-error and
-       .ngo-success elements carrying inline styles. The class hooks are styled
+       .nxd-field-invalid to a failed field and injects .nxd-field-error and
+       .nxd-success elements carrying inline styles. The class hooks are styled
        here so a failed field matches the rest of the form; the two injected
        elements set style="" directly, which only !important can outrank —
        without it the plugin's stock green/red boxes land in the middle of a
        petrol-and-sand page. */
-    .ngo-field-invalid {
+    .nxd-field-invalid {
         @apply border-accent-600 ring-2 ring-accent-600/20;
     }
 
-    .ngo-field-error {
+    .nxd-field-error {
         color: var(--color-accent-700) !important;
         font-size: 0.75rem !important;
         font-weight: 600 !important;
         margin-top: 0.375rem !important;
     }
 
-    .ngo-success {
+    .nxd-success {
         border: 1px solid var(--color-brand-200) !important;
         border-radius: 0.375rem !important;
         background: var(--color-brand-50) !important;
