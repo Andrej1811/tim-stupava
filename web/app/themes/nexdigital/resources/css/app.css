@@ -408,6 +408,34 @@
         @apply border-accent-600/30 bg-white text-accent-700;
     }
 
+    /* nxd-forms writes its own state markup on submit: it adds
+       .ngo-field-invalid to a failed field and injects .ngo-field-error and
+       .ngo-success elements carrying inline styles. The class hooks are styled
+       here so a failed field matches the rest of the form; the two injected
+       elements set style="" directly, which only !important can outrank —
+       without it the plugin's stock green/red boxes land in the middle of a
+       petrol-and-sand page. */
+    .ngo-field-invalid {
+        @apply border-accent-600 ring-2 ring-accent-600/20;
+    }
+
+    .ngo-field-error {
+        color: var(--color-accent-700) !important;
+        font-size: 0.75rem !important;
+        font-weight: 600 !important;
+        margin-top: 0.375rem !important;
+    }
+
+    .ngo-success {
+        border: 1px solid var(--color-brand-200) !important;
+        border-radius: 0.375rem !important;
+        background: var(--color-brand-50) !important;
+        padding: 1.25rem 1.5rem !important;
+        color: var(--color-brand-800) !important;
+        font-size: 0.875rem !important;
+        line-height: 1.7 !important;
+    }
+
     /* ----------------------------------------------------------------------
        Lightbox.
 
@@ -474,24 +502,11 @@
         }
     }
 
-    /* Slide changes. The class is set for one frame by the module, so the new
-       photograph fades in from the direction the reader asked for instead of
-       swapping instantly. */
-    .lightbox-image {
-        transition:
-            opacity 180ms ease,
-            transform 180ms cubic-bezier(0.2, 0, 0.2, 1);
-    }
-
-    .lightbox-image.is-entering-next {
-        opacity: 0;
-        transform: translateX(1.5rem);
-    }
-
-    .lightbox-image.is-entering-prev {
-        opacity: 0;
-        transform: translateX(-1.5rem);
-    }
+    /* Slide changes are animated from JavaScript rather than with a class
+       toggle here: the transition has to start when the new file is ready to
+       paint, and a CSS toggle fires immediately after the src assignment —
+       animating an empty box while the photograph is still decoding. See
+       slideIn() in resources/js/modules/lightbox.js. */
 
     /* Hero carousel. The track is a real scrolling element so swipe and keyboard
        scrolling work without JS; the scrollbar itself would sit across the

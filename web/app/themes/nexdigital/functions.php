@@ -49,5 +49,7 @@ require_inc('video.php');
 require_inc('social.php');
 // admin after post-types: the project list table reads project_stages().
 require_inc('admin.php');
+// forms after fields: the form definitions read the contact e-mail option.
+require_inc('forms.php');
 // blocks after fields: block field groups use the Fields helpers.
 require_inc('blocks.php');

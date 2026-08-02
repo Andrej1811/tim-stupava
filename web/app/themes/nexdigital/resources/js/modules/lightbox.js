@@ -152,23 +152,57 @@ class Lightbox {
         const full = item.getAttribute("href");
         const label = item.dataset.lightboxCaption || "";
 
-        if (direction !== 0) {
-            // Park the image at the offset, let one frame paint, then release
-            // it — without the reflow the browser coalesces both states and
-            // nothing moves.
-            this.image.classList.add(direction > 0 ? "is-entering-next" : "is-entering-prev");
-            void this.image.offsetWidth;
-            this.image.classList.remove("is-entering-next", "is-entering-prev");
-        }
-
         this.image.src = full;
         this.image.alt = label;
         this.caption.textContent = label;
         this.caption.hidden = label === "";
         this.counter.textContent = total > 1 ? `${this.index + 1} / ${total}` : "";
 
+        if (direction !== 0) {
+            this.slideIn(direction);
+        }
+
         preload(this.items[(this.index + 1) % total]?.getAttribute("href"));
         preload(this.items[(this.index - 1 + total) % total]?.getAttribute("href"));
+    }
+
+    /**
+     * Animate the incoming photograph.
+     *
+     * Deliberately not a CSS class toggle. The transition has to start once the
+     * new file is ready to paint, and src assignment is asynchronous — toggling
+     * a class straight after it animates an empty box, and the photograph then
+     * appears when the 180 ms are already over. decode() is the event that says
+     * "ready", and the Web Animations API can be handed that moment directly.
+     */
+    slideIn(direction) {
+        // The global prefers-reduced-motion block in app.css only reaches CSS
+        // transitions, so this path needs its own check.
+        if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+            return;
+        }
+
+        const image = this.image;
+        const from = direction > 0 ? "1.5rem" : "-1.5rem";
+
+        const run = () => {
+            // Bail if the reader has already arrowed past this one.
+            if (image.src !== this.items[this.index]?.href) {
+                return;
+            }
+
+            image.animate(
+                [
+                    { opacity: 0, transform: `translateX(${from})` },
+                    { opacity: 1, transform: "translateX(0)" },
+                ],
+                { duration: 180, easing: "cubic-bezier(0.2, 0, 0.2, 1)" }
+            );
+        };
+
+        // A cached neighbour resolves on the next microtask, so arrowing
+        // through a preloaded gallery still feels immediate.
+        image.decode().then(run, run);
     }
 }
 
