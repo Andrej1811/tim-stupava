@@ -21,11 +21,19 @@ while (have_posts()) :
     // max-w-3xl and their backgrounds stop mid-page. Pages written as prose —
     // the privacy policy — still want that column, so the wrapper depends on
     // what the content actually is.
-    $has_sections = has_block('acf/ts-kontakt')
-        || has_block('acf/ts-kandidati')
-        || has_block('acf/ts-projekty')
-        || has_block('acf/ts-hero-carousel')
-        || has_block('acf/ts-ako-volit');
+    //
+    // Matched by prefix rather than by a list of block names: every section
+    // block this theme registers is acf/ts-*, and a hard-coded list silently
+    // clips the next one somebody adds.
+    $has_sections = false;
+
+    foreach (parse_blocks(get_the_content()) as $block) {
+        if (str_starts_with((string) ($block['blockName'] ?? ''), 'acf/ts-')) {
+            $has_sections = true;
+
+            break;
+        }
+    }
     ?>
 
     <?php if ($has_sections) : ?>

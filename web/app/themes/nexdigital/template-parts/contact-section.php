@@ -67,7 +67,10 @@ $detail = static function (string $icon, string $label, string $value, string $h
                     <?php echo esc_html($value); ?>
                 </a>
             <?php else : ?>
-                <span class="mt-1 block whitespace-pre-line text-base font-bold leading-snug text-ink">
+                <?php // leading-tight, not snug: the address is three short lines of
+                      // one address, and looser spacing makes them read as three
+                      // separate facts. ?>
+                <span class="mt-1 block whitespace-pre-line text-base font-bold leading-tight text-ink">
                     <?php echo esc_html($value); ?>
                 </span>
             <?php endif; ?>
