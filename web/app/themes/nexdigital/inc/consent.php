@@ -69,15 +69,39 @@ function print_config(): void {
 add_action('wp_footer', __NAMESPACE__ . '\\print_config', 5);
 
 /**
- * Render the "reopen preferences" control.
+ * Floating "reopen cookie preferences" control, bottom left.
  *
  * A button, not a link: it opens a dialog rather than navigating. The library
  * binds it by the data-cc attribute, so no per-element JS is needed.
+ *
+ * Printed with `hidden` and revealed by the consent module once a decision
+ * exists. Two reasons: it shares the bottom-left corner with the consent
+ * banner and would collide with it, and a control that cannot work without the
+ * bundle should not be visible when the bundle failed to load.
+ *
+ * Bottom left rather than the usual bottom right — the right corner is where
+ * chat widgets and back-to-top buttons end up, and the donate CTA is the thing
+ * that deserves that side of the screen.
  */
-function preferences_button(string $classes = ''): void {
-    printf(
-        '<button type="button" data-cc="show-preferencesModal" class="%s">%s</button>',
-        esc_attr($classes),
-        esc_html__('Nastavenia cookies', 'nexdigital')
-    );
+function preferences_button(): void {
+    ?>
+<button
+    type="button"
+    data-cc="show-preferencesModal"
+    aria-haspopup="dialog"
+    class="hidden fixed bottom-4 left-4 z-40 h-12 w-12 items-center justify-center rounded-full bg-brand-600 text-white shadow-lg shadow-brand-950/30 transition hover:bg-brand-700 hover:scale-105 sm:bottom-6 sm:left-6 sm:h-14 sm:w-14"
+>
+    <span class="sr-only"><?php esc_html_e('Nastavenia cookies', 'nexdigital'); ?></span>
+    <?php // lucide "cookie" ?>
+    <svg class="h-6 w-6 sm:h-7 sm:w-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M12 2a10 10 0 1 0 10 10 4 4 0 0 1-5-5 4 4 0 0 1-5-5" />
+        <path d="M8.5 8.5v.01" />
+        <path d="M16 15.5v.01" />
+        <path d="M12 12v.01" />
+        <path d="M11 17v.01" />
+        <path d="M7 14v.01" />
+    </svg>
+</button>
+    <?php
 }
+add_action('wp_footer', __NAMESPACE__ . '\\preferences_button', 20);

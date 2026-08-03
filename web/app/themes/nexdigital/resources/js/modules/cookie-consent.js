@@ -15,6 +15,9 @@
  * Any element carrying data-cc="show-preferencesModal" reopens the settings
  * dialog; the footer link uses it. Required by GDPR — consent must be as easy
  * to withdraw as it was to give.
+ *
+ * Google Tag Manager is driven from here through Consent Mode v2 — see
+ * syncGoogleConsent() and inc/analytics.php.
  */
 
 import * as CookieConsent from "vanilla-cookieconsent";
@@ -49,14 +52,63 @@ function settings() {
 }
 
 /**
+ * Translate our categories into Google Consent Mode v2 signals.
+ *
+ * inc/analytics.php loads GTM with every identifying storage type denied and a
+ * 500 ms `wait_for_update` hold; this is the update it waits for. When no
+ * container id is configured `gtag` never exists and this is a no-op.
+ *
+ * The dataLayer event is there so tags that are not consent-mode aware (a Meta
+ * pixel, say) can use it as their trigger instead.
+ */
+function syncGoogleConsent(categories) {
+    const analytics = categories.includes("analytics") ? "granted" : "denied";
+    const marketing = categories.includes("marketing") ? "granted" : "denied";
+
+    if (typeof window.gtag === "function") {
+        window.gtag("consent", "update", {
+            analytics_storage: analytics,
+            ad_storage: marketing,
+            ad_user_data: marketing,
+            ad_personalization: marketing,
+            personalization_storage: marketing,
+        });
+    }
+
+    window.dataLayer?.push({
+        event: "cookie_consent_update",
+        cookie_consent_categories: categories,
+    });
+}
+
+/**
+ * Reveal the floating settings button.
+ *
+ * PHP prints it with `hidden` — it shares the bottom-left corner with the
+ * consent banner, so it may only appear once a decision has been made and the
+ * banner is gone. `inline-flex` is added rather than shipped in the markup
+ * because Tailwind's display utilities all sit in the same layer, so `hidden`
+ * and `inline-flex` on one element would resolve by stylesheet order.
+ */
+function revealPreferencesButton() {
+    document.querySelectorAll('[data-cc="show-preferencesModal"]').forEach((el) => {
+        el.classList.remove("hidden");
+        el.classList.add("inline-flex");
+    });
+}
+
+/**
  * Let the rest of the site react without importing the library. `detail` holds
  * the accepted category ids, so consumers never touch the cookie themselves.
  */
 function emit() {
+    const { acceptedCategories: categories } = CookieConsent.getUserPreferences();
+
+    revealPreferencesButton();
+    syncGoogleConsent(categories);
+
     document.dispatchEvent(
-        new CustomEvent("nexdigital:consent", {
-            detail: { categories: CookieConsent.getUserPreferences().acceptedCategories },
-        })
+        new CustomEvent("nexdigital:consent", { detail: { categories } })
     );
 }
 

@@ -33,12 +33,12 @@
 
     /* Secondary action — "Odmietnuť" must stay equally reachable, so it is a
        filled neutral button, not a de-emphasised ghost. */
-    --cc-btn-secondary-bg: var(--color-slate-100);
+    --cc-btn-secondary-bg: var(--color-sand-100);
     --cc-btn-secondary-color: var(--color-ink);
-    --cc-btn-secondary-border-color: var(--color-slate-100);
-    --cc-btn-secondary-hover-bg: var(--color-slate-200);
+    --cc-btn-secondary-border-color: var(--color-sand-100);
+    --cc-btn-secondary-hover-bg: var(--color-sand-200);
     --cc-btn-secondary-hover-color: var(--color-ink);
-    --cc-btn-secondary-hover-border-color: var(--color-slate-200);
+    --cc-btn-secondary-hover-border-color: var(--color-sand-200);
 
     /* brand-700 rather than brand-600: links sit on tinted category blocks and
        are underlined, so the extra contrast (9.75:1 on white) pays off. */
@@ -55,17 +55,18 @@
     --cc-toggle-readonly-knob-bg: #fff;
     --cc-toggle-readonly-knob-icon-color: var(--color-slate-400);
 
-    /* Category accordions */
+    /* Category accordions — filled areas take the warm surface family, borders
+       stay slate. */
     --cc-section-category-border: var(--color-slate-200);
-    --cc-cookie-category-block-bg: var(--color-slate-50);
+    --cc-cookie-category-block-bg: var(--color-sand-50);
     --cc-cookie-category-block-border: var(--color-slate-200);
-    --cc-cookie-category-block-hover-bg: var(--color-slate-100);
+    --cc-cookie-category-block-hover-bg: var(--color-sand-100);
     --cc-cookie-category-block-hover-border: var(--color-slate-300);
     --cc-cookie-category-expanded-block-bg: transparent;
-    --cc-cookie-category-expanded-block-hover-bg: var(--color-slate-100);
+    --cc-cookie-category-expanded-block-hover-bg: var(--color-sand-100);
 
     /* Preferences modal footer */
-    --cc-footer-bg: var(--color-slate-50);
+    --cc-footer-bg: var(--color-sand-50);
     --cc-footer-color: var(--color-slate-600);
     --cc-footer-border-color: var(--color-slate-200);
 
