@@ -40,8 +40,13 @@ $programme = $programme_page instanceof WP_Post ? get_permalink($programme_page)
 
 <section class="relative isolate overflow-hidden bg-brand-950 py-16 text-white sm:py-20">
     <?php if ($photo > 0) : ?>
+        <?php // The location photos are 3:2 landscape and this band is far wider
+              // than that, so cover crops vertically — from the centre it took
+              // the head off everyone standing in frame. Biasing the window to
+              // the upper quarter keeps faces in and pushes the crop down into
+              // the ground, the same trick the hero uses on its own photos. ?>
         <?php echo wp_get_attachment_image($photo, 'large', false, [
-            'class'    => 'absolute inset-0 -z-10 h-full w-full object-cover',
+            'class'    => 'absolute inset-0 -z-10 h-full w-full object-cover object-[50%_25%]',
             'alt'      => '',
             'loading'  => 'lazy',
             'decoding' => 'async',

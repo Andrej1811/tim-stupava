@@ -83,17 +83,27 @@ acf_add_local_field_group([
                 'key'          => 'field_ts_foto_portret',
                 'label'        => __('Fotografia v prostredí', 'nexdigital'),
                 'name'         => key('foto_portret'),
-                'instructions' => __('Fotka z parku alebo mesta, používa sa v hlavičke profilu kandidáta.', 'nexdigital'),
+                'instructions' => __('Fotka z parku alebo mesta. Zobrazí sa na profile kandidáta ako pozadie výzvy „Zakrúžkujte toto číslo“ — je pod tmavým prekryvom, takže na nej záleží skôr atmosféra než detail. Bez nej ostane pás jednofarebný.', 'nexdigital'),
             ],
             '1800 × 1200 px',
             __('3:2 (na šírku)', 'nexdigital')
         ),
         [
             'key'          => 'field_ts_video',
-            'label'        => __('Video-vizitka', 'nexdigital'),
+            'label'        => __('Video-vizitka — odkaz na YouTube alebo Vimeo', 'nexdigital'),
             'name'         => key('video'),
             'type'         => 'oembed',
-            'instructions' => __('Vlož odkaz na YouTube alebo Vimeo. Prehrávač sa doplní automaticky.', 'nexdigital'),
+            'instructions' => __('Vlož odkaz na video. Prehrávač sa načíta až po tom, čo návštevník klikne na prehrávanie — dovtedy web s YouTube vôbec nekomunikuje.', 'nexdigital'),
+        ],
+        [
+            'key'          => 'field_ts_video_subor',
+            'label'        => __('Video-vizitka — vlastný súbor', 'nexdigital'),
+            'name'         => key('video_subor'),
+            'type'         => 'file',
+            'return_format' => 'array',
+            'library'      => 'all',
+            'mime_types'   => 'mp4,webm',
+            'instructions' => __('Alternatíva k odkazu vyššie: nahraj video priamo do knižnice médií. Formát MP4 (H.264) alebo WebM, rozlíšenie 1920 × 1080 px, ideálne do 30 MB — dlhšie a väčšie video sa na mobilných dátach načítava pomaly. Ak sú vyplnené obe polia, použije sa nahraný súbor.', 'nexdigital'),
         ],
 
         [

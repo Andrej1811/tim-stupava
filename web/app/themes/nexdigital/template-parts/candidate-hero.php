@@ -34,7 +34,14 @@ $facebook = trim((string) (field('facebook', $post_id) ?? ''));
 $video = source($post_id);
 ?>
 
-<section class="bg-sand-100 lg:grid lg:min-h-[34rem] lg:grid-cols-2">
+<?php // Height and the portrait column's width both come from --hero-height in
+      // .candidate-hero (app.css), which is where the 3:4 relationship and the
+      // viewport cap are explained.
+      //
+      // flex on mobile is what makes order-first below actually work: order is
+      // inert in plain block flow, and without it the photograph silently
+      // rendered under the panel. ?>
+<section class="candidate-hero flex flex-col bg-sand-100 lg:grid">
 
     <?php // Panel first in the DOM so a screen reader reads the name before the
           // photograph; order-first moves the photograph above it on a phone,
@@ -100,15 +107,17 @@ $video = source($post_id);
         <?php endif; ?>
     </div>
 
-    <?php // aspect-4/5 on a phone rather than the photo's own 3:4, which at full
-          // width would be 133vw tall and push the name off the screen. ?>
+    <?php // aspect-3/4 on a phone too, so the fit stays exact there as well. If
+          // a long bio ever stretches the section past the paired height above,
+          // the column only gets narrower than 3:4 and cover trims the sides —
+          // which is backdrop, never the figure. ?>
     <div
-        class="relative order-first aspect-4/5 overflow-hidden lg:order-none lg:aspect-auto lg:h-full"
+        class="relative order-first aspect-3/4 overflow-hidden lg:order-none lg:aspect-auto lg:h-full"
         <?php echo $video !== null ? 'data-video-facade' : ''; ?>
     >
         <?php if (has_post_thumbnail($post_id)) : ?>
             <?php echo get_the_post_thumbnail($post_id, 'large', [
-                'class'    => 'absolute inset-0 h-full w-full object-cover object-top',
+                'class'    => 'absolute inset-0 h-full w-full object-cover',
                 'alt'      => $name,
                 'decoding' => 'async',
             ]); ?>
