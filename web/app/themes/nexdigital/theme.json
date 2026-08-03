@@ -19,7 +19,9 @@
                 { "slug": "ink", "name": "Ink", "color": "#061920" },
                 { "slug": "muted", "name": "Muted", "color": "#465f68" },
                 { "slug": "border", "name": "Border", "color": "#dce7ea" },
-                { "slug": "surface", "name": "Surface", "color": "#f6f9fa" },
+                { "slug": "surface", "name": "Surface (cool)", "color": "#f6f9fa" },
+                { "slug": "sand", "name": "Surface (warm)", "color": "#f9f3ea" },
+                { "slug": "sand-deep", "name": "Surface (warm, deep)", "color": "#e1d5c6" },
                 { "slug": "white", "name": "White", "color": "#ffffff" }
             ]
         },
