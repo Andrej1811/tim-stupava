@@ -93,19 +93,42 @@ $facts = array_filter([
                     <?php endforeach; ?>
                 </dl>
             <?php endif; ?>
+
+            <?php // mt-auto pins this to the bottom edge whatever the card above it
+                  // holds, so a row of cards ends on one line. Not a second link —
+                  // the title's overlay already covers the whole card — so it is a
+                  // span, and aria-hidden keeps it out of the reading order. ?>
+            <span class="link-arrow mt-auto pt-5 text-brand-600 group-hover:text-brand-700" aria-hidden="true">
+                <?php echo esc_html($done ? __('Pozrieť projekt', 'nexdigital') : __('Detail projektu', 'nexdigital')); ?>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M5 12h14M13 6l6 6-6 6" />
+                </svg>
+            </span>
         </div>
     </article>
 <?php else : ?>
-    <article class="group relative flex items-baseline gap-4 border-b border-slate-200 py-4">
+    <?php // The row is a link and has to look like one before it is hovered: a
+          // chevron parked at the end says "this opens" on a touch screen, where
+          // there is no hover at all, and the tinted hover surface confirms it on
+          // a mouse. The negative margin lets that surface breathe past the text
+          // without the rows shifting when the list is laid out. ?>
+    <?php // The data attributes are what the filter bar reads; they cost nothing
+          // when no filter is on the page. ?>
+    <article
+        class="group relative -mx-3 flex items-start gap-4 rounded-md border-b border-slate-200 px-3 py-4 transition <?php echo $done ? 'hover:bg-sand-50' : 'hover:bg-white'; ?>"
+        data-project
+        data-oblast="<?php echo esc_attr((string) ($args['oblast'] ?? '')); ?>"
+        data-stage="<?php echo esc_attr($stage); ?>"
+    >
         <?php if (!$done && $stage_name !== '') : ?>
             <?php // The stage sits in its own column so the eye can scan how far
                   // along the whole list is without reading every title. ?>
-            <p class="hidden w-44 shrink-0 text-[0.5625rem] font-bold uppercase leading-tight tracking-[0.15em] text-brand-600 sm:block">
+            <p class="hidden w-44 shrink-0 pt-0.5 text-[0.5625rem] font-bold uppercase leading-tight tracking-[0.15em] text-brand-600 sm:block">
                 <?php echo esc_html($stage_name); ?>
             </p>
         <?php endif; ?>
 
-        <div class="min-w-0">
+        <div class="min-w-0 flex-1">
             <h3 class="text-base font-bold leading-snug text-ink transition group-hover:text-brand-700">
                 <a href="<?php echo esc_url($permalink); ?>" class="after:absolute after:inset-0 after:content-['']">
                     <?php echo esc_html($title); ?>
@@ -119,10 +142,20 @@ $facts = array_filter([
             <?php endif; ?>
 
             <?php if ($excerpt !== '') : ?>
-                <p class="mt-1.5 text-sm leading-relaxed text-slate-600">
+                <?php // Clamped: the seeded descriptions run to four lines and the
+                      // rows then read as paragraphs to be read rather than as a
+                      // list to be scanned. Two lines is enough to tell one project
+                      // from another; the rest is what the detail page is for. ?>
+                <p class="mt-1.5 line-clamp-2 text-sm leading-relaxed text-slate-600">
                     <?php echo esc_html($excerpt); ?>
                 </p>
             <?php endif; ?>
         </div>
+
+        <?php // aria-hidden: the title anchor already names the destination, so
+              // this must not become a second announcement of the same link. ?>
+        <svg class="h-5 w-5 shrink-0 self-center text-slate-400 transition group-hover:translate-x-0.5 group-hover:text-brand-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="m9 18 6-6-6-6" />
+        </svg>
     </article>
 <?php endif; ?>

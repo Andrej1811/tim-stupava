@@ -50,6 +50,49 @@ if ($ungrouped !== []) {
 uasort($groups, static fn (array $a, array $b): int => count($b['posts']) <=> count($a['posts']));
 
 $total = count($query->posts);
+
+// Stage counts, in the order project_stages() defines — that order is the real
+// sequence of a permit, so a filter bar sorted any other way would misinform.
+// Only stages actually present get a chip: an empty filter is a dead end.
+$stage_counts = [];
+
+foreach ($query->posts as $project) {
+    $key = (string) (get_post_meta($project->ID, 'ts_stav', true) ?: '');
+
+    if ($key !== '') {
+        $stage_counts[$key] = ($stage_counts[$key] ?? 0) + 1;
+    }
+}
+
+$stages = [];
+
+foreach (\NexDigital\Theme\PostTypes\project_stages() as $key => $label) {
+    if (isset($stage_counts[$key])) {
+        $stages[$key] = ['label' => $label, 'count' => $stage_counts[$key]];
+    }
+}
+
+// On Výsledky every project is "Dokončené", so a stage filter would be one
+// chip that changes nothing.
+$show_stage_filter = !$done && count($stages) > 1;
+
+/** One filter chip. Buttons, not links: this filters in place, it does not navigate. */
+$chip = static function (string $group, string $value, string $label, int $count, bool $active = false): void {
+    ?>
+    <button
+        type="button"
+        class="inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-bold transition <?php echo $active
+            ? 'border-brand-600 bg-brand-600 text-white'
+            : 'border-slate-300 bg-white text-ink hover:border-slate-400 hover:bg-sand-100'; ?>"
+        data-filter-group="<?php echo esc_attr($group); ?>"
+        data-filter-value="<?php echo esc_attr($value); ?>"
+        aria-pressed="<?php echo $active ? 'true' : 'false'; ?>"
+    >
+        <?php echo esc_html($label); ?>
+        <span class="text-xs font-semibold opacity-60"><?php echo esc_html(number_format_i18n($count)); ?></span>
+    </button>
+    <?php
+};
 ?>
 
 <div class="bg-sand-50 py-12 sm:py-16">
@@ -94,13 +137,51 @@ $total = count($query->posts);
         </p>
     </div>
 <?php else : ?>
-    <div class="<?php echo $done ? 'bg-white' : 'bg-sand-50'; ?> pb-16 sm:pb-20">
+    <div class="<?php echo $done ? 'bg-white' : 'bg-sand-50'; ?> pb-16 sm:pb-20" data-project-filter>
         <div class="site-container">
+
+            <?php // hidden until the module claims it: without JavaScript the whole
+                  // list is on the page anyway, and a filter bar that does nothing
+                  // is worse than no filter bar. ?>
+            <div class="border-b border-slate-200 pb-10 pt-10" data-filter-bar hidden>
+                <div class="flex flex-col gap-6">
+                    <div>
+                        <p class="text-[0.5625rem] font-bold uppercase tracking-[0.2em] text-slate-500">
+                            <?php esc_html_e('Oblasť', 'nexdigital'); ?>
+                        </p>
+                        <div class="mt-3 flex flex-wrap gap-2">
+                            <?php $chip('oblast', '', __('Všetko', 'nexdigital'), $total, true); ?>
+                            <?php foreach ($groups as $slug => $group) : ?>
+                                <?php $chip('oblast', (string) $slug, $group['name'], count($group['posts'])); ?>
+                            <?php endforeach; ?>
+                        </div>
+                    </div>
+
+                    <?php if ($show_stage_filter) : ?>
+                        <div>
+                            <p class="text-[0.5625rem] font-bold uppercase tracking-[0.2em] text-slate-500">
+                                <?php esc_html_e('Fáza', 'nexdigital'); ?>
+                            </p>
+                            <div class="mt-3 flex flex-wrap gap-2">
+                                <?php $chip('stage', '', __('Všetky fázy', 'nexdigital'), $total, true); ?>
+                                <?php foreach ($stages as $key => $stage) : ?>
+                                    <?php $chip('stage', (string) $key, $stage['label'], $stage['count']); ?>
+                                <?php endforeach; ?>
+                            </div>
+                        </div>
+                    <?php endif; ?>
+                </div>
+
+                <?php // aria-live so a screen reader hears the result of a filter it
+                      // cannot see change. ?>
+                <p class="mt-6 text-sm font-semibold text-slate-600 empty:mt-0" data-filter-status role="status" aria-live="polite"></p>
+            </div>
+
             <?php foreach ($groups as $slug => $group) : ?>
-                <section class="pt-12 first:pt-4">
+                <section class="pt-12" data-filter-section data-oblast="<?php echo esc_attr((string) $slug); ?>">
                     <h2 class="flex items-baseline gap-3 text-2xl font-black leading-tight tracking-tight text-ink sm:text-3xl">
                         <?php echo esc_html($group['name']); ?>
-                        <span class="text-base font-bold text-slate-400">
+                        <span class="text-base font-bold text-slate-400" data-filter-count>
                             <?php echo esc_html(number_format_i18n(count($group['posts']))); ?>
                         </span>
                     </h2>
@@ -111,11 +192,16 @@ $total = count($query->posts);
                                 'post_id' => $project->ID,
                                 'variant' => 'compact',
                                 'done'    => $done,
+                                'oblast'  => (string) $slug,
                             ]); ?>
                         <?php endforeach; ?>
                     </div>
                 </section>
             <?php endforeach; ?>
+
+            <p class="hidden pt-12 text-slate-600" data-filter-empty>
+                <?php esc_html_e('Tomuto výberu nezodpovedá žiadny projekt. Skúste inú oblasť alebo fázu.', 'nexdigital'); ?>
+            </p>
         </div>
     </div>
 <?php endif; ?>
