@@ -8,6 +8,12 @@ web/app/upgrade
 web/app/uploads/*
 !web/app/uploads/.gitkeep
 web/app/cache/*
+# Cache Enabler writes this drop-in on activation and removes it on deactivation
+web/app/advanced-cache.php
+# webp-converter-for-media output tree (mirrors uploads/)
+web/app/uploads-webpc/
+# server-specific, managed by hand on the host (basic auth etc.)
+web/app/.htaccess
 # Downloaded translations (restored by WP on demand)
 web/app/languages/
 
@@ -40,3 +46,7 @@ wp-cli.local.yml
 
 # Claude Code local settings
 .claude/settings.local.json
+
+# Local tooling caches
+.rtk/
+.codegraph/
