@@ -36,6 +36,7 @@ function require_inc(string $relative): void {
 // Order matters: Vite helper first, then consumers.
 require_inc('vite.php');
 require_inc('setup.php');
+require_inc('security.php');
 require_inc('assets.php');
 require_inc('nav.php');
 require_inc('consent.php');

@@ -156,6 +156,10 @@ Config::define('WP_POST_REVISIONS', env('WP_POST_REVISIONS') ?? true);
 // Disable script concatenation
 Config::define('CONCATENATE_SCRIPTS', false);
 
+// Let Cache Enabler's advanced-cache.php drop-in run. A no-op while the
+// plugin is deactivated (the drop-in is created and removed with it).
+Config::define('WP_CACHE', true);
+
 /**
  * Debugging Settings
  */
