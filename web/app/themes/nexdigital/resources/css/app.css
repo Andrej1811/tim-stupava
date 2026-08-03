@@ -127,6 +127,14 @@
         scroll-margin-top: calc(var(--spacing-header) + 1rem);
     }
 
+    /* The browser's own [hidden] rule is a user-agent style, so any author
+       display utility outranks it — a `.flex` element with the hidden
+       attribute stays visible. The project filter sets .hidden on rows that
+       carry `flex`, so without this the attribute would silently do nothing. */
+    [hidden] {
+        display: none !important;
+    }
+
     /* Visible keyboard focus, without boxing in mouse users. */
     :focus-visible {
         outline: 2px solid var(--color-brand-600);
@@ -373,8 +381,27 @@
        colour on this page that belongs to no palette family. appearance:none
        hands the box over, and the tick is a background image so the control
        stays a single element the label can still be clicked to toggle. */
+    /* flex-wrap and a full-width error, because the plugin appends
+       .nxd-field-error as the last child of the field's parent — in this row
+       that makes it a third flex item, and the message lands in the column
+       beside the label instead of under the control it belongs to. */
     .form-check {
-        @apply flex items-start gap-3;
+        @apply flex flex-wrap items-start gap-x-3;
+    }
+
+    /* The label has to shrink rather than wrap. With flex-wrap on, a flex item
+       whose max-content width does not fit gets pushed onto its own line before
+       it is ever shrunk — and the hint sentence is always wider than the row,
+       so the label kept dropping under the checkbox. flex-1 with min-w-0 gives
+       it a zero base size, so it stays beside the checkbox and wraps its own
+       text; only the full-width error below it starts a new line. */
+    .form-check-label {
+        @apply min-w-0 flex-1;
+    }
+
+    .form-check > .nxd-field-error,
+    .form-check > .form-error {
+        @apply mt-2 w-full;
     }
 
     .form-check-input {
@@ -606,10 +633,81 @@
         }
     }
 
+    /* Candidate hero.
+
+       One variable drives both dimensions, because they are not independent:
+       the twelve studio files are all exactly 900×1200, so a column at 3:4 is
+       filled edge to edge by object-cover with no crop and no letterbox, and
+       the seamless backdrop never shows. That matters because the backdrop
+       cannot be matched by CSS at all — it is lit, so it carries a vignette
+       (#eaeaea–#fefefe within a single frame) that no flat fill sits beside
+       invisibly. Deriving the width from the height in code is what stops the
+       two drifting apart later and bringing the grey rectangle back.
+
+       The height yields to the viewport before its 44rem ceiling, so the whole
+       hero fits on a laptop screen without scrolling. What it subtracts is the
+       chrome stacked above it: the sticky header, plus 3.75rem for the
+       breadcrumb bar (measured 3.625rem, rounded up so the fit never lands a
+       pixel short).
+
+       min-height, not height: a long bio then makes the section taller rather
+       than overflowing it, and the column merely becomes narrower than 3:4 —
+       cover trims the sides, which are backdrop, never the figure. */
+    .candidate-hero {
+        --hero-height: min(44rem, calc(100svh - var(--spacing-header) - 3.75rem));
+    }
+
+    @media (width >= 64rem) {
+        .candidate-hero {
+            min-height: var(--hero-height);
+            grid-template-columns: 1fr calc(var(--hero-height) * 3 / 4);
+        }
+    }
+
+    /* WordPress prints the posts pagination itself — nav.pagination > .nav-links
+       holding .page-numbers anchors — so, like .site-nav below, these are
+       component rules on WP-emitted classes rather than utilities in a
+       template. The squares borrow .btn-outline's grammar; the current page is
+       filled petrol like a primary action. */
+    .pagination .nav-links {
+        @apply flex flex-wrap items-center justify-center gap-2;
+    }
+
+    .pagination .page-numbers {
+        @apply inline-flex h-11 min-w-11 items-center justify-center rounded-md border border-slate-300 bg-white px-3 text-sm font-bold text-ink transition;
+    }
+
+    .pagination a.page-numbers:hover {
+        @apply border-slate-400 bg-sand-100;
+    }
+
+    .pagination .page-numbers.current {
+        @apply border-brand-600 bg-brand-600 text-white;
+    }
+
+    .pagination .page-numbers.dots {
+        @apply border-transparent bg-transparent text-slate-500;
+    }
+
+    /* WordPress's own visually-hidden class — the pagination emits an
+       .screen-reader-text heading and core never ships styles for it in a
+       classic theme. Same box as Tailwind's sr-only. */
+    .screen-reader-text {
+        @apply sr-only;
+    }
+
     /* WordPress emits .current-menu-item / .current-menu-ancestor on the <li>,
        which utility classes on the <a> cannot reach — hence a component rule
-       rather than inline Tailwind. */
-    .site-nav a {
+       rather than inline Tailwind.
+
+       Scoped to .site-nav-list, the <ul> the menu itself renders, NOT to
+       .site-nav, the <nav> around it. The mobile panel puts the donate button
+       inside that <nav>, and `.site-nav a` was landing on it: both rules live
+       in @layer components and this one comes later, so it beat .btn — the
+       button went `display: block` (hence full width, label left-aligned) and
+       took `color: slate-600` (hence dark grey text on magenta). That was the
+       "wrong colour, wrong width" report, and it was never a .btn bug. */
+    .site-nav-list a {
         position: relative;
         display: block;
         padding-block: 0.5rem;
@@ -619,22 +717,26 @@
         transition: color 150ms ease;
     }
 
-    .site-nav a:hover {
+    .site-nav-list a:hover {
         color: var(--color-ink);
     }
 
-    .site-nav .current-menu-item > a,
-    .site-nav .current-menu-ancestor > a,
-    .site-nav .current_page_item > a {
+    .site-nav-list .current-menu-item > a,
+    .site-nav-list .current-menu-ancestor > a,
+    .site-nav-list .current_page_item > a,
+    .site-nav-list .current_page_parent > a {
         color: var(--color-ink);
     }
 
     /* Underline marker, desktop only — it reads as a tab indicator, which is
        wrong in a stacked mobile list. */
     @media (width >= 64rem) {
-        .site-nav .current-menu-item > a::after,
-        .site-nav .current-menu-ancestor > a::after,
-        .site-nav .current_page_item > a::after {
+        /* current_page_parent: WordPress marks the Novinky page item with it on
+           single posts, so an open article still shows where it lives. */
+        .site-nav-list .current-menu-item > a::after,
+        .site-nav-list .current-menu-ancestor > a::after,
+        .site-nav-list .current_page_item > a::after,
+        .site-nav-list .current_page_parent > a::after {
             content: "";
             position: absolute;
             inset-inline: 0;
