@@ -79,9 +79,13 @@ use function NexDigital\Theme\Nav\support_url;
         <nav class="site-container site-nav py-4" aria-label="<?php esc_attr_e('Hlavná navigácia — mobil', 'nexdigital'); ?>">
             <?php primary_menu(); ?>
 
+            <?php // Sized like the header's own CTA rather than stretched across the
+                  // panel: btn-block made the one magenta element on the page into
+                  // its largest block, which reads as an alert rather than an ask.
+                  // Without it .btn's inline-flex shrinks the anchor to its label. ?>
             <a
                 href="<?php echo esc_url(support_url()); ?>"
-                class="btn btn-accent btn-block mt-4 sm:hidden"
+                class="btn btn-accent btn-sm mt-5 sm:hidden"
             >
                 <?php esc_html_e('Podporte nás', 'nexdigital'); ?>
             </a>

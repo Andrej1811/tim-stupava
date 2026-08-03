@@ -80,6 +80,28 @@ function primary_menu(): void {
 }
 
 /**
+ * Keep current_page_parent honest on the Novinky menu item.
+ *
+ * WordPress hangs current_page_parent on the page_for_posts item for every
+ * view that is not a page — including the kandidat archive and the project
+ * detail — which would light Novinky up while Kandidáti is the open page.
+ * The class stays only where Novinky really is the parent: posts and their
+ * archives.
+ *
+ * @param array<int,string> $classes
+ */
+function trim_blog_parent_class(array $classes, object $item): array {
+    $is_blog_view = is_home() || is_singular('post') || is_category() || is_tag() || is_date();
+
+    if (!$is_blog_view && (int) ($item->object_id ?? 0) === (int) get_option('page_for_posts')) {
+        $classes = array_values(array_diff($classes, ['current_page_parent']));
+    }
+
+    return $classes;
+}
+add_filter('nav_menu_css_class', __NAMESPACE__ . '\\trim_blog_parent_class', 10, 2);
+
+/**
  * URL the header call-to-action points at, filterable so the donate target can
  * move without touching templates.
  */
