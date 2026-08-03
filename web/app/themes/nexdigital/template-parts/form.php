@@ -151,6 +151,12 @@ $submit = trim((string) ($args['submit'] ?? '')) ?: __('Odoslať správu', 'nexd
             </div>
         <?php endforeach; ?>
 
+        <?php if (function_exists('nxd_form_hcaptcha')) : ?>
+            <?php // Widget is an iframe, the .form-* vocabulary cannot style it;
+                  // renders only when hCaptcha keys are set in the plugin admin. ?>
+            <?php echo nxd_form_hcaptcha(); // phpcs:ignore WordPress.Security.EscapeOutput ?>
+        <?php endif; ?>
+
         <div>
             <button type="submit" class="btn btn-primary">
                 <?php echo esc_html($submit); ?>

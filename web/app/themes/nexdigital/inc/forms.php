@@ -9,9 +9,15 @@
  * so a field cannot exist on screen and be missing from the e-mail.
  *
  * Keys the plugin reads: `name` (the admin menu label — not `title`, which it
- * silently ignores and then warns about), recipient, subject, and per field
- * label, type, required. The rest (placeholder, hint, autocomplete, width) are
- * ours and only reach the renderer.
+ * silently ignores and then warns about) and per field label, type, required.
+ * The rest (placeholder, hint, autocomplete, width) are ours and only reach
+ * the renderer.
+ *
+ * `recipient` and `subject` in the registration are NOT read by the plugin —
+ * its mailer takes both from the `nxd_form_settings_<id>` option (empty here)
+ * and falls back to admin_email, which is the agency's address. The
+ * notification_to() filter below is what actually routes the mail to the
+ * campaign inbox.
  *
  * @package NexDigital
  */
@@ -31,6 +37,33 @@ const CONTACT = 'kontakt';
 
 /** Resident-ideas form slug, used by the front page prompt. */
 const IDEA = 'napad-obyvatela';
+
+/**
+ * Route notification mail to the campaign inbox from Nastavenia webu —
+ * but only as the default.
+ *
+ * The plugin's mailer ignores the `recipient` key passed to
+ * nxd_form_register() and falls back to admin_email — the agency, not the
+ * campaign. This filter replaces that fallback. An address typed into the
+ * form's own settings screen (Formuláre → Nastavenia) must win, though:
+ * the first version of this filter overrode it unconditionally, and a
+ * deliberately configured Gmail address silently kept arriving at opt_email.
+ * The mailer hands the filter a single string, so telling "explicit" from
+ * "fallback" means reading the form's settings option ourselves.
+ */
+function notification_to(string $to, string $form_id): string {
+    $settings = (array) get_option('nxd_form_settings_' . sanitize_key($form_id), []);
+    $explicit = sanitize_email((string) ($settings['notification_email'] ?? ''));
+
+    if (is_email($explicit)) {
+        return $to;
+    }
+
+    $recipient = trim((string) (option('opt_email') ?? ''));
+
+    return is_email($recipient) ? $recipient : $to;
+}
+add_filter('nxd_form_notification_to', __NAMESPACE__ . '\\notification_to', 10, 2);
 
 /**
  * The GDPR consent row, shared by both forms.
@@ -92,7 +125,7 @@ function register(): void {
                 'type'         => 'tel',
                 'required'     => false,
                 'autocomplete' => 'tel',
-                'hint'         => __('Nepovinné — ak chcete, aby sme zavolali.', 'nexdigital'),
+                'hint'         => __('Nepovinné - ak chcete, aby sme zavolali.', 'nexdigital'),
             ],
             'sprava' => [
                 'label'       => __('Správa', 'nexdigital'),
