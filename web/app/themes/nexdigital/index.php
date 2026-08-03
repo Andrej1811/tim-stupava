@@ -12,7 +12,7 @@ get_header();
 
 <div class="site-container py-10">
 <?php if (have_posts()) : ?>
-    <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+    <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         <?php
         while (have_posts()) :
             the_post();
@@ -21,8 +21,12 @@ get_header();
         ?>
     </div>
 
-    <div class="mt-10">
-        <?php the_posts_pagination(['mid_size' => 1]); ?>
+    <div class="mt-12">
+        <?php the_posts_pagination([
+            'mid_size'  => 1,
+            'prev_text' => __('Novšie', 'nexdigital'),
+            'next_text' => __('Staršie', 'nexdigital'),
+        ]); ?>
     </div>
 <?php else : ?>
     <p class="text-slate-600"><?php esc_html_e('Nothing found.', 'nexdigital'); ?></p>

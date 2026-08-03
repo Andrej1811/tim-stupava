@@ -51,6 +51,19 @@ function content_width(): void {
 add_action('after_setup_theme', __NAMESPACE__ . '\\content_width', 0);
 
 /**
+ * Posts are written in the classic editor.
+ *
+ * A novinka is a title, a photograph and a few paragraphs of prose — the block
+ * editor's layout tooling only invites layout that .rich-text would then have
+ * to fight. Pages keep the block editor, because the acf/ts-* section blocks
+ * live there.
+ */
+function classic_editor_for_posts(bool $use_block_editor, string $post_type): bool {
+    return $post_type === 'post' ? false : $use_block_editor;
+}
+add_filter('use_block_editor_for_post_type', __NAMESPACE__ . '\\classic_editor_for_posts', 10, 2);
+
+/**
  * Drop the "Archívy:" / "Kategória:" prefix from archive headings.
  *
  * WordPress prefixes the heading with the kind of archive you are on, which
